@@ -1,0 +1,1342 @@
+fileFormatVersion: 2
+guid: 6bd7f5f014498944fa2f177b58504c16
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 7169510560082238099
+    second: Main Menu Bagian Atas_0
+  - first:
+      213: 1532126640304950462
+    second: Main Menu Bagian Atas_1
+  - first:
+      213: 2588771957245781100
+    second: Main Menu Bagian Atas_2
+  - first:
+      213: 2840039049646701747
+    second: Main Menu Bagian Atas_3
+  - first:
+      213: 924158718806248828
+    second: Main Menu Bagian Atas_4
+  - first:
+      213: -2567059353704201286
+    second: Main Menu Bagian Atas_5
+  - first:
+      213: -3897606729356852347
+    second: Main Menu Bagian Atas_6
+  - first:
+      213: 7010102670706298856
+    second: Main Menu Bagian Atas_7
+  - first:
+      213: 3195566782327319500
+    second: Main Menu Bagian Atas_8
+  - first:
+      213: 2567898972471039607
+    second: Main Menu Bagian Atas_9
+  - first:
+      213: 1705700378162084246
+    second: Main Menu Bagian Atas_10
+  - first:
+      213: -603061759947028395
+    second: Main Menu Bagian Atas_11
+  - first:
+      213: -646914616457097615
+    second: Main Menu Bagian Atas_12
+  - first:
+      213: -111468116279754603
+    second: Main Menu Bagian Atas_13
+  - first:
+      213: -3477140080771312625
+    second: Main Menu Bagian Atas_14
+  - first:
+      213: -4252307642797047248
+    second: Main Menu Bagian Atas_15
+  - first:
+      213: 6488841487794468530
+    second: Main Menu Bagian Atas_16
+  - first:
+      213: -2792717547642041022
+    second: Main Menu Bagian Atas_17
+  - first:
+      213: -7976567624668495574
+    second: Main Menu Bagian Atas_18
+  - first:
+      213: -777603817149663942
+    second: Main Menu Bagian Atas_19
+  - first:
+      213: -882089150756284067
+    second: Main Menu Bagian Atas_20
+  - first:
+      213: -417895465400692850
+    second: Main Menu Bagian Atas_21
+  - first:
+      213: -4222779217028827799
+    second: Main Menu Bagian Atas_22
+  - first:
+      213: 1815765749183824982
+    second: Main Menu Bagian Atas_23
+  - first:
+      213: -4942176410669462575
+    second: Main Menu Bagian Atas_24
+  - first:
+      213: -358051039751309328
+    second: Main Menu Bagian Atas_25
+  - first:
+      213: 1569232095540962612
+    second: Main Menu Bagian Atas_26
+  - first:
+      213: 7439089690352319637
+    second: Main Menu Bagian Atas_27
+  - first:
+      213: 2617853006779349746
+    second: Main Menu Bagian Atas_28
+  - first:
+      213: -8112082010548369296
+    second: Main Menu Bagian Atas_29
+  - first:
+      213: 294622468156701215
+    second: Main Menu Bagian Atas_30
+  - first:
+      213: -5680636266311038825
+    second: Main Menu Bagian Atas_31
+  - first:
+      213: -4035630158944768218
+    second: Main Menu Bagian Atas_32
+  - first:
+      213: -3305578551373923703
+    second: Main Menu Bagian Atas_33
+  - first:
+      213: 6425568223907706048
+    second: Main Menu Bagian Atas_34
+  - first:
+      213: -3052806223566892357
+    second: Main Menu Bagian Atas_35
+  - first:
+      213: 678280410512950467
+    second: Main Menu Bagian Atas_36
+  - first:
+      213: 2141237461765105283
+    second: Main Menu Bagian Atas_37
+  - first:
+      213: 4523490765530289809
+    second: Main Menu Bagian Atas_38
+  - first:
+      213: 6925537769175185155
+    second: Main Menu Bagian Atas_39
+  - first:
+      213: 6121153950022668354
+    second: Main Menu Bagian Atas_40
+  - first:
+      213: -5445130643967555807
+    second: Main Menu Bagian Atas_41
+  - first:
+      213: -1588185547175858071
+    second: Main Menu Bagian Atas_42
+  - first:
+      213: -713953317843111622
+    second: Main Menu Bagian Atas_43
+  - first:
+      213: 1283791638746231485
+    second: Main Menu Bagian Atas_44
+  - first:
+      213: -2598917087444346719
+    second: Main Menu Bagian Atas_45
+  - first:
+      213: -786757364231369510
+    second: Main Menu Bagian Atas_46
+  - first:
+      213: 2814742795535585590
+    second: Main Menu Bagian Atas_47
+  - first:
+      213: -7792290617211506476
+    second: Main Menu Bagian Atas_48
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_0
+      rect:
+        serializedVersion: 2
+        x: 304
+        y: 3
+        width: 634
+        height: 1072
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 39a1d136ed73f7360800000000000000
+      internalID: 7169510560082238099
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_1
+      rect:
+        serializedVersion: 2
+        x: 919
+        y: 739
+        width: 63
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ebc0a42df05334510800000000000000
+      internalID: 1532126640304950462
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_2
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 717
+        width: 97
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c64a024116a2de320800000000000000
+      internalID: 2588771957245781100
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_3
+      rect:
+        serializedVersion: 2
+        x: 1041
+        y: 730
+        width: 53
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3bcfd6ee778d96720800000000000000
+      internalID: 2840039049646701747
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_4
+      rect:
+        serializedVersion: 2
+        x: 1074
+        y: 739
+        width: 65
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c7dc686557543dc00800000000000000
+      internalID: 924158718806248828
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_5
+      rect:
+        serializedVersion: 2
+        x: 1119
+        y: 730
+        width: 53
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ab30e116e19ff5cd0800000000000000
+      internalID: -2567059353704201286
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_6
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 739
+        width: 65
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 583438e745be8e9c0800000000000000
+      internalID: -3897606729356852347
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_7
+      rect:
+        serializedVersion: 2
+        x: 1197
+        y: 730
+        width: 53
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8ef4776ec33e84160800000000000000
+      internalID: 7010102670706298856
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_8
+      rect:
+        serializedVersion: 2
+        x: 1231
+        y: 739
+        width: 64
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ccb68a4ce0fe85c20800000000000000
+      internalID: 3195566782327319500
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_9
+      rect:
+        serializedVersion: 2
+        x: 1276
+        y: 730
+        width: 53
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7761a39928203a320800000000000000
+      internalID: 2567898972471039607
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_10
+      rect:
+        serializedVersion: 2
+        x: 1309
+        y: 739
+        width: 64
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 699b99de47ddba710800000000000000
+      internalID: 1705700378162084246
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_11
+      rect:
+        serializedVersion: 2
+        x: 1354
+        y: 730
+        width: 53
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5584cb4468e71a7f0800000000000000
+      internalID: -603061759947028395
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_12
+      rect:
+        serializedVersion: 2
+        x: 1387
+        y: 739
+        width: 65
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 17e01167592b507f0800000000000000
+      internalID: -646914616457097615
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_13
+      rect:
+        serializedVersion: 2
+        x: 1432
+        y: 730
+        width: 53
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5900d5db65cf37ef0800000000000000
+      internalID: -111468116279754603
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_14
+      rect:
+        serializedVersion: 2
+        x: 1465
+        y: 717
+        width: 97
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f045a5be487bebfc0800000000000000
+      internalID: -3477140080771312625
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_15
+      rect:
+        serializedVersion: 2
+        x: 1543
+        y: 739
+        width: 64
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 03247638ab4ccf4c0800000000000000
+      internalID: -4252307642797047248
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_16
+      rect:
+        serializedVersion: 2
+        x: 1588
+        y: 730
+        width: 52
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2b67ecb24fefc0a50800000000000000
+      internalID: 6488841487794468530
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_17
+      rect:
+        serializedVersion: 2
+        x: 1622
+        y: 717
+        width: 64
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 24dcbc6df264e39d0800000000000000
+      internalID: -2792717547642041022
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_18
+      rect:
+        serializedVersion: 2
+        x: 919
+        y: 717
+        width: 63
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a21c0ccc10a8d4190800000000000000
+      internalID: -7976567624668495574
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_19
+      rect:
+        serializedVersion: 2
+        x: 1074
+        y: 717
+        width: 65
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a357eceb2756535f0800000000000000
+      internalID: -777603817149663942
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_20
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 717
+        width: 65
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d5912f4479032c3f0800000000000000
+      internalID: -882089150756284067
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_21
+      rect:
+        serializedVersion: 2
+        x: 1231
+        y: 717
+        width: 64
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e8f8b8fc946533af0800000000000000
+      internalID: -417895465400692850
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_22
+      rect:
+        serializedVersion: 2
+        x: 1309
+        y: 717
+        width: 64
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9653814ecaca565c0800000000000000
+      internalID: -4222779217028827799
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_23
+      rect:
+        serializedVersion: 2
+        x: 1387
+        y: 717
+        width: 65
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6544c6b1455e23910800000000000000
+      internalID: 1815765749183824982
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_24
+      rect:
+        serializedVersion: 2
+        x: 1543
+        y: 717
+        width: 64
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1db4bb04dbcd96bb0800000000000000
+      internalID: -4942176410669462575
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_25
+      rect:
+        serializedVersion: 2
+        x: 919
+        y: 349
+        width: 63
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0f7f924f972f70bf0800000000000000
+      internalID: -358051039751309328
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_26
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 328
+        width: 97
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4356cd8d64807c510800000000000000
+      internalID: 1569232095540962612
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_27
+      rect:
+        serializedVersion: 2
+        x: 1041
+        y: 341
+        width: 53
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 59c78bdc8a4fc3760800000000000000
+      internalID: 7439089690352319637
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_28
+      rect:
+        serializedVersion: 2
+        x: 1074
+        y: 349
+        width: 65
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2fa754f807b745420800000000000000
+      internalID: 2617853006779349746
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_29
+      rect:
+        serializedVersion: 2
+        x: 1119
+        y: 341
+        width: 53
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0788d6c14681c6f80800000000000000
+      internalID: -8112082010548369296
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_30
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 349
+        width: 65
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f1a3455e295b61400800000000000000
+      internalID: 294622468156701215
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_31
+      rect:
+        serializedVersion: 2
+        x: 1197
+        y: 341
+        width: 53
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7984450c9635a21b0800000000000000
+      internalID: -5680636266311038825
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_32
+      rect:
+        serializedVersion: 2
+        x: 1231
+        y: 349
+        width: 64
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 62f6e3b80cf8ef7c0800000000000000
+      internalID: -4035630158944768218
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_33
+      rect:
+        serializedVersion: 2
+        x: 1276
+        y: 341
+        width: 53
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 98af43c32d93022d0800000000000000
+      internalID: -3305578551373923703
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_34
+      rect:
+        serializedVersion: 2
+        x: 1309
+        y: 349
+        width: 64
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0c47e0a61443c2950800000000000000
+      internalID: 6425568223907706048
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_35
+      rect:
+        serializedVersion: 2
+        x: 1354
+        y: 341
+        width: 53
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bb291340ae042a5d0800000000000000
+      internalID: -3052806223566892357
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_36
+      rect:
+        serializedVersion: 2
+        x: 1387
+        y: 349
+        width: 65
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c40bbe807cb96900800000000000000
+      internalID: 678280410512950467
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_37
+      rect:
+        serializedVersion: 2
+        x: 1432
+        y: 341
+        width: 53
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 386a440702437bd10800000000000000
+      internalID: 2141237461765105283
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_38
+      rect:
+        serializedVersion: 2
+        x: 1465
+        y: 328
+        width: 97
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 196513082eaa6ce30800000000000000
+      internalID: 4523490765530289809
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_39
+      rect:
+        serializedVersion: 2
+        x: 1543
+        y: 349
+        width: 64
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 307fc3278e37c1060800000000000000
+      internalID: 6925537769175185155
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_40
+      rect:
+        serializedVersion: 2
+        x: 1588
+        y: 341
+        width: 52
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 24094961615b2f450800000000000000
+      internalID: 6121153950022668354
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_41
+      rect:
+        serializedVersion: 2
+        x: 1622
+        y: 328
+        width: 64
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 12748b267820f64b0800000000000000
+      internalID: -5445130643967555807
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_42
+      rect:
+        serializedVersion: 2
+        x: 919
+        y: 328
+        width: 63
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9607c2fc8a1a5f9e0800000000000000
+      internalID: -1588185547175858071
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_43
+      rect:
+        serializedVersion: 2
+        x: 1074
+        y: 328
+        width: 65
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a31ffb77d378716f0800000000000000
+      internalID: -713953317843111622
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_44
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 328
+        width: 65
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db2f51191b1f0d110800000000000000
+      internalID: 1283791638746231485
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_45
+      rect:
+        serializedVersion: 2
+        x: 1231
+        y: 328
+        width: 64
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1a8df2abdaaceebd0800000000000000
+      internalID: -2598917087444346719
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_46
+      rect:
+        serializedVersion: 2
+        x: 1309
+        y: 328
+        width: 64
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: adc019c7850e415f0800000000000000
+      internalID: -786757364231369510
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_47
+      rect:
+        serializedVersion: 2
+        x: 1387
+        y: 328
+        width: 65
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6311dfdc8a9ff0720800000000000000
+      internalID: 2814742795535585590
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Main Menu Bagian Atas_48
+      rect:
+        serializedVersion: 2
+        x: 1543
+        y: 328
+        width: 64
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d0bf7e08f83cd390800000000000000
+      internalID: -7792290617211506476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable: {}
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
