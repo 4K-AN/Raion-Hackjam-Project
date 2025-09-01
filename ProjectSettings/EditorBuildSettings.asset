@@ -6,16 +6,16 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Anam's Scene/Main Menu.unity
+    path: Assets/Scenes/Anam's Scene/Main Menu/Main Menu.unity
     guid: 95f2bddbef4fdf94db08a663b29c6c27
   - enabled: 1
-    path: Assets/Scenes/Anam's Scene/Tutorial UI.unity
+    path: Assets/Scenes/Anam's Scene/Main Menu/Tutorial UI.unity
     guid: 5c71408a7b3094f43a0411b73130b454
   - enabled: 1
     path: Assets/Scenes/Anam's Scene/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
   - enabled: 1
-    path: Assets/Scenes/Anam's Scene/Control UI.unity
+    path: Assets/Scenes/Anam's Scene/Main Menu/Control UI.unity
     guid: c81f79021d758bf499817c851b88ad82
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
