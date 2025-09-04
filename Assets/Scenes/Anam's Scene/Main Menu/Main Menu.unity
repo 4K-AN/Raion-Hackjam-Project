@@ -342,89 +342,96 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 261581693}
   m_CullTransparentMesh: 1
---- !u!1 &436508497 stripped
+--- !u!1 &490467259
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 7585188272134704047, guid: cda1661b9d60a384ca14dd78e03d1e50, type: 3}
-  m_PrefabInstance: {fileID: 1089120184}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &436508498
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 490467261}
+  - component: {fileID: 490467260}
+  m_Layer: 0
+  m_Name: MainMenu_Music_Setter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &490467260
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 436508497}
+  m_GameObject: {fileID: 490467259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ba712988c93ffa46b768f4b3169c2c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  musicForThisScene: {fileID: 8300000, guid: b36c9862fe6b0de41aa54936a036f7e4, type: 3}
+--- !u!4 &490467261
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 490467259}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1284.5245, y: 463.7329, z: -16.903713}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &626355844
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 626355846}
+  - component: {fileID: 626355845}
+  m_Layer: 0
+  m_Name: BGM_Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &626355845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 626355844}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dccd438b682e6194190d074c4e4c750f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 436508499}
---- !u!82 &436508499 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 8327193430249725600, guid: cda1661b9d60a384ca14dd78e03d1e50, type: 3}
-  m_PrefabInstance: {fileID: 1089120184}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &1089120184
-PrefabInstance:
+  audioSource: {fileID: 0}
+--- !u!4 &626355846
+Transform:
   m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 626355844}
   serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2785924211038305758, guid: cda1661b9d60a384ca14dd78e03d1e50, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 1209.6039
-      objectReference: {fileID: 0}
-    - target: {fileID: 2785924211038305758, guid: cda1661b9d60a384ca14dd78e03d1e50, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 409.45322
-      objectReference: {fileID: 0}
-    - target: {fileID: 2785924211038305758, guid: cda1661b9d60a384ca14dd78e03d1e50, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -12.398187
-      objectReference: {fileID: 0}
-    - target: {fileID: 2785924211038305758, guid: cda1661b9d60a384ca14dd78e03d1e50, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2785924211038305758, guid: cda1661b9d60a384ca14dd78e03d1e50, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2785924211038305758, guid: cda1661b9d60a384ca14dd78e03d1e50, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2785924211038305758, guid: cda1661b9d60a384ca14dd78e03d1e50, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2785924211038305758, guid: cda1661b9d60a384ca14dd78e03d1e50, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2785924211038305758, guid: cda1661b9d60a384ca14dd78e03d1e50, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2785924211038305758, guid: cda1661b9d60a384ca14dd78e03d1e50, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7585188272134704047, guid: cda1661b9d60a384ca14dd78e03d1e50, type: 3}
-      propertyPath: m_Name
-      value: BGManager
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7585188272134704047, guid: cda1661b9d60a384ca14dd78e03d1e50, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 436508498}
-  m_SourcePrefab: {fileID: 100100000, guid: cda1661b9d60a384ca14dd78e03d1e50, type: 3}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1284.5245, y: 463.7329, z: -16.903713}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1134702001
 GameObject:
   m_ObjectHideFlags: 0
@@ -1287,4 +1294,5 @@ SceneRoots:
   m_Roots:
   - {fileID: 1244441427}
   - {fileID: 1134702004}
-  - {fileID: 1089120184}
+  - {fileID: 490467261}
+  - {fileID: 626355846}
