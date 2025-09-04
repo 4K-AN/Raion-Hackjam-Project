@@ -1560,11 +1560,43 @@ MonoBehaviour:
   p2SequenceContainer: {fileID: 0}
   keyIconPrefab: {fileID: 0}
   player1KeyMap:
-  - key: 0
+  - key: 31
     sprite: {fileID: 0}
+  - key: 37
+    sprite: {fileID: -243099114694839562, guid: 0831e178a81f1fb4eadcf6d5f02be36c, type: 3}
+  - key: 19
+    sprite: {fileID: -2224474878120320963, guid: bf8b7ca82283a634690a6c757d6b0b1d, type: 3}
+  - key: 15
+    sprite: {fileID: -8680797543115379092, guid: 864cc917de67ec144bc4cd69aadf362e, type: 3}
+  - key: 33
+    sprite: {fileID: -1182827721247122346, guid: a976ada8a9f1d604c9900aa24e3ba904, type: 3}
+  - key: 18
+    sprite: {fileID: -962488092458481032, guid: e7a4d4935e879734a897ee802ff54a44, type: 3}
+  - key: 40
+    sprite: {fileID: 4969131362173423726, guid: 9ad6b0a95d68d894bafffa933fdce3fa, type: 3}
+  - key: 38
+    sprite: {fileID: 3959922740387019359, guid: a99d4a8c0e2296c4080ddf2e3ea4c79e, type: 3}
+  - key: 17
+    sprite: {fileID: -606033477821260893, guid: dc0902b0ac2a9eb4aa9b15e4bb4b7c82, type: 3}
   player2KeyMap:
-  - key: 0
-    sprite: {fileID: 0}
+  - key: 30
+    sprite: {fileID: -2799025756769327729, guid: a8127aeb6e4c65b4495bbcb63b03283e, type: 3}
+  - key: 29
+    sprite: {fileID: -1937887712669590171, guid: 5c9670e1b6eb9724981e71c4d9405c88, type: 3}
+  - key: 23
+    sprite: {fileID: -5465646382484160345, guid: d4ad1edd0c9f873469f4b9bdb9bd97f3, type: 3}
+  - key: 26
+    sprite: {fileID: 3685002520340290964, guid: 36fe0185b5bc7a64c8574f571d2d998d, type: 3}
+  - key: 25
+    sprite: {fileID: 1646720447909147354, guid: 1ef7937ef8ae0bf41b8db6370b33b71b, type: 3}
+  - key: 24
+    sprite: {fileID: -581286770295223724, guid: 64f592e1fb323514ea7d71e9e3573479, type: 3}
+  - key: 7
+    sprite: {fileID: -5094934733069037180, guid: b40c4afd6af018147b2514763becda20, type: 3}
+  - key: 27
+    sprite: {fileID: 2811246782448359015, guid: c373295e6a5f83242b1b89f2cea085e1, type: 3}
+  - key: 28
+    sprite: {fileID: 6059799596907309901, guid: d2cf7abe5b6a2e24ea267373793b87fb, type: 3}
   correctColor: {r: 0, g: 1, b: 0, a: 1}
   incorrectColor: {r: 1, g: 0, b: 0, a: 1}
   pendingColor: {r: 1, g: 1, b: 1, a: 1}
