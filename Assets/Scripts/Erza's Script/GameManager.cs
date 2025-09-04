@@ -41,6 +41,11 @@ public class GameManager : MonoBehaviour
     [Header("Visuals - Videos")]
     public VideoClip playerMeetClip;       // Video 1: Player bertemu
     public VideoClip faceOffClip;          // Video 2: Kedua karakter face off
+    [Header("Visuals - Sprites")]
+    public Sprite readyPromptSprite;    // Gambar 3: Press Q and P to Ready
+    public Sprite highNoonWaitSprite;   // Gambar 4: High Noon (menunggu)
+    public Sprite highNoonShootSprite;  // Gambar 5: High Noon (mekanik tembak)
+    [Header("Visuals - Videos")]
     public VideoClip p1WinsRoundClip;      // Video 6: Player 1 menembak
     public VideoClip p2WinsRoundClip;      // Video 6: Player 2 menembak
     public VideoClip p1GetsHitClip;        // Video 7: Player 1 tertembak
@@ -51,9 +56,6 @@ public class GameManager : MonoBehaviour
     public VideoClip sequenceFailClip;     // Video jika ada yang gagal sequence
 
     [Header("Visuals - Sprites")]
-    public Sprite readyPromptSprite;    // Gambar 3: Press Q and P to Ready
-    public Sprite highNoonWaitSprite;   // Gambar 4: High Noon (menunggu)
-    public Sprite highNoonShootSprite;  // Gambar 5: High Noon (mekanik tembak)
     public Sprite continuePromptSprite; // Gambar untuk prompt lanjut ke ronde berikutnya
 
     // Variabel internal untuk melacak status permainan
