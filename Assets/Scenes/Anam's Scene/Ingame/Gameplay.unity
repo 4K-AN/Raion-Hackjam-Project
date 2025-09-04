@@ -1104,7 +1104,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 201.35364, y: -35.181854}
+  m_AnchoredPosition: {x: 256.6, y: -40.25}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &589528346
@@ -1459,7 +1459,7 @@ GameObject:
   m_Component:
   - component: {fileID: 656638887}
   m_Layer: 0
-  m_Name: Sequnce-COntainer
+  m_Name: SequenceUIPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2155,19 +2155,20 @@ MonoBehaviour:
   - {fileID: 1431006299}
   gameOverPanel: {fileID: 1007889039}
   replayButton: {fileID: 1678579471}
+  sequenceUIPanel: {fileID: 656638886}
   playerMeetClip: {fileID: 32900000, guid: 7b49f7f9a6cd70d40a16706f8b42a925, type: 3}
   faceOffClip: {fileID: 32900000, guid: 920a662c7688a6740838cb4e63ef80da, type: 3}
+  readyPromptSprite: {fileID: 4100129014753480916, guid: b272ece31cd3a36459dc2053714f68a5, type: 3}
+  highNoonWaitSprite: {fileID: -1918665799226547777, guid: 134e2a1b186a1e749a70c4ebd8674dac, type: 3}
+  highNoonShootSprite: {fileID: -6470460504253458178, guid: 974be906766b2b44d9fc5c478d258542, type: 3}
   p1WinsRoundClip: {fileID: 32900000, guid: bb546bec404590e4b9bce0b9205e2e80, type: 3}
   p2WinsRoundClip: {fileID: 32900000, guid: 8961753479d451d4490ede5372d61efc, type: 3}
   p1GetsHitClip: {fileID: 32900000, guid: 8961753479d451d4490ede5372d61efc, type: 3}
   p2GetsHitClip: {fileID: 32900000, guid: bb546bec404590e4b9bce0b9205e2e80, type: 3}
   p1WinsGameClip: {fileID: 32900000, guid: 2e77960c6655b994d9815b01807bb3a9, type: 3}
   p2WinsGameClip: {fileID: 32900000, guid: 9e070e25eea9e9c46aeccffc1863b5e4, type: 3}
-  earlyShotClip: {fileID: 32900000, guid: 2e77960c6655b994d9815b01807bb3a9, type: 3}
-  sequenceFailClip: {fileID: 32900000, guid: 77267cf80542a8b48b2d2c5cad531d12, type: 3}
-  readyPromptSprite: {fileID: 4100129014753480916, guid: b272ece31cd3a36459dc2053714f68a5, type: 3}
-  highNoonWaitSprite: {fileID: -1918665799226547777, guid: 134e2a1b186a1e749a70c4ebd8674dac, type: 3}
-  highNoonShootSprite: {fileID: -6470460504253458178, guid: 974be906766b2b44d9fc5c478d258542, type: 3}
+  earlyShotClip: {fileID: 32900000, guid: 1c003380373568043a54a970f68038a6, type: 3}
+  sequenceFailClip: {fileID: 32900000, guid: 9563e2b5357e6c04d8c16f2746f594c8, type: 3}
   continuePromptSprite: {fileID: -8043314205108096175, guid: 62f174089e6198f4d9d3fdfe3fab8dd7, type: 3}
 --- !u!4 &1018109873
 Transform:

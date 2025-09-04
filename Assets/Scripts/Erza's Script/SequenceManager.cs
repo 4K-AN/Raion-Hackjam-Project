@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using TMPro;
 using UnityEngine.UI;
 using System.Linq;
 
@@ -25,48 +24,30 @@ public class SequenceManager : MonoBehaviour
     public GameObject keyIconPrefab;
     
     [Header("Pengaturan Tombol & Sprite")]
-    // ▼▼▼ BAGIAN INI MEMASUKKAN KEY LANGSUNG DARI KODE ▼▼▼
-    public List<KeySpritePair> player1KeyMap = new List<KeySpritePair>()
-    {
-        new KeySpritePair { key = Key.Q },
-        new KeySpritePair { key = Key.W },
-        new KeySpritePair { key = Key.E },
-        new KeySpritePair { key = Key.A },
-        new KeySpritePair { key = Key.S },
-        new KeySpritePair { key = Key.D },
-        new KeySpritePair { key = Key.Z },
-        new KeySpritePair { key = Key.X },
-        new KeySpritePair { key = Key.C }
-    };
-    public List<KeySpritePair> player2KeyMap = new List<KeySpritePair>()
-    {
-        new KeySpritePair { key = Key.P },
-        new KeySpritePair { key = Key.O },
-        new KeySpritePair { key = Key.I },
-        new KeySpritePair { key = Key.L },
-        new KeySpritePair { key = Key.K },
-        new KeySpritePair { key = Key.J },
-        new KeySpritePair { key = Key.Comma }, // Koma
-        new KeySpritePair { key = Key.M },
-        new KeySpritePair { key = Key.N }
-    };
-    // ==========================================================
+    public List<KeySpritePair> player1KeyMap;
+    public List<KeySpritePair> player2KeyMap;
 
     [Header("Umpan Balik Visual")]
     public Color correctColor = Color.green;
     public Color incorrectColor = Color.red;
     public Color pendingColor = Color.white;
     
-    // ... sisa skripnya sama persis dan sudah benar ...
-    
+    // Event untuk GameManager
     public System.Action<int> OnPlayerWinsClash;
     public System.Action<int> OnPlayerFailsSequence;
+
+    // Variabel Internal
     private Dictionary<Key, Sprite> keySpriteMap;
-    private List<Key> p1Sequence, p2Sequence;
-    private List<Image> p1Icons, p2Icons;
-    private int p1Index, p2Index;
-    private float p1Timer, p2Timer;
-    private bool p1Active, p2Active;
+    private List<Key> p1Sequence;
+    private List<Key> p2Sequence;
+    private List<Image> p1Icons;
+    private List<Image> p2Icons;
+    private int p1Index;
+    private int p2Index;
+    private float p1Timer;
+    private float p2Timer;
+    private bool p1Active;
+    private bool p2Active;
 
     private void Awake()
     {
@@ -99,20 +80,22 @@ public class SequenceManager : MonoBehaviour
         DisplaySequenceIcons(p2Sequence, p2SequenceContainer, ref p2Icons);
     }
 
+    // --- FUNGSI INI TELAH DIPERBAIKI ---
     public bool ProcessInput(int playerID, Key key)
     {
         if (playerID == 1 && p1Active)
         {
             if (key == p1Sequence[p1Index])
             {
+                // Input benar
                 p1Icons[p1Index].color = correctColor;
                 p1Index++;
                 if (p1Index >= sequenceLength) WinClash(1);
             }
             else
             {
-                p1Icons[p1Index].color = incorrectColor;
-                FailSequence(1);
+                // Input salah, reset urutan untuk Player 1
+                ResetPlayerSequence(1);
             }
             return true;
         }
@@ -120,18 +103,40 @@ public class SequenceManager : MonoBehaviour
         {
             if (key == p2Sequence[p2Index])
             {
+                // Input benar
                 p2Icons[p2Index].color = correctColor;
                 p2Index++;
                 if (p2Index >= sequenceLength) WinClash(2);
             }
             else
             {
-                p2Icons[p2Index].color = incorrectColor;
-                FailSequence(2);
+                // Input salah, reset urutan untuk Player 2
+                ResetPlayerSequence(2);
             }
             return true;
         }
         return false;
+    }
+
+    // --- FUNGSI BARU UNTUK MERESET URUTAN ---
+    private void ResetPlayerSequence(int playerID)
+    {
+        if (playerID == 1)
+        {
+            p1Index = 0; // Kembalikan index ke awal
+            foreach (var icon in p1Icons)
+            {
+                icon.color = pendingColor; // Kembalikan semua warna ikon ke normal
+            }
+        }
+        else if (playerID == 2)
+        {
+            p2Index = 0;
+            foreach (var icon in p2Icons)
+            {
+                icon.color = pendingColor;
+            }
+        }
     }
 
     private void WinClash(int playerID)

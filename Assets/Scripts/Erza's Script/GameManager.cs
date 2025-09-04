@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
     public GameObject[] p2HeartSprites; // 3 Sprite hati untuk Player 2
     public GameObject gameOverPanel;
     public GameObject replayButton;
+    public GameObject sequenceUIPanel;
 
     // ============== KOLEKSI VIDEO DAN GAMBAR (URUTAN 1-9) ==============
     [Header("Visuals - Videos")]
@@ -45,7 +46,6 @@ public class GameManager : MonoBehaviour
     public Sprite readyPromptSprite;    // Gambar 3: Press Q and P to Ready
     public Sprite highNoonWaitSprite;   // Gambar 4: High Noon (menunggu)
     public Sprite highNoonShootSprite;  // Gambar 5: High Noon (mekanik tembak)
-    [Header("Visuals - Videos")]
     public VideoClip p1WinsRoundClip;      // Video 6: Player 1 menembak
     public VideoClip p2WinsRoundClip;      // Video 6: Player 2 menembak
     public VideoClip p1GetsHitClip;        // Video 7: Player 1 tertembak
@@ -119,42 +119,53 @@ public class GameManager : MonoBehaviour
     #region State Machine
     // Fungsi pusat untuk mengubah tahapan permainan
     private void ChangeState(GameState newState)
-    {
-        currentState = newState;
-        Debug.Log("Game State changed to: " + newState);
-        stateText.text = ""; // Reset teks status setiap ganti state
+{
+    currentState = newState;
+    Debug.Log("Game State changed to: " + newState);
+    stateText.text = ""; // Reset teks status
 
-        switch (currentState)
-        {
-            case GameState.Intro:
-                StartCoroutine(IntroSequence());
-                break;
-            case GameState.WaitingForReady:
-                cutsceneManager.PlaySingleImage(readyPromptSprite, 999f);
-                stateText.text = "TEKAN TOMBOL READY";
-                break;
-            case GameState.HighNoonWait:
-                StartCoroutine(HighNoonCountdown());
-                break;
-            case GameState.Clash:
-                cutsceneManager.PlaySingleImage(highNoonShootSprite, 999f);
-                sequenceManager.StartClashP1();
-                sequenceManager.StartClashP2();
-                stateText.text = "SELESAIKAN URUTAN!";
-                break;
-            case GameState.WaitForContinue:
-                cutsceneManager.PlaySingleImage(continuePromptSprite, 999f);
-                stateText.text = "Tekan Q dan P untuk Lanjut";
-                break;
-            case GameState.GameOver:
-                VideoClip finalClip = (p1Lives > 0) ? p1WinsGameClip : p2WinsGameClip;
-                StartCoroutine(PlayCutsceneAndThen(finalClip, () => {
-                    if (gameOverPanel != null) gameOverPanel.SetActive(true);
-                    if (replayButton != null) replayButton.SetActive(true);
-                }));
-                break;
-        }
+    // SEMBUNYIKAN PANEL DUEL SECARA DEFAULT
+    if (sequenceUIPanel != null) sequenceUIPanel.SetActive(false);
+
+    switch (currentState)
+    {
+        case GameState.Intro:
+            StartCoroutine(IntroSequence());
+            break;
+        case GameState.WaitingForReady:
+            cutsceneManager.PlaySingleImage(readyPromptSprite, 999f);
+            stateText.text = "TEKAN TOMBOL READY";
+            break;
+        case GameState.HighNoonWait:
+            StartCoroutine(HighNoonCountdown());
+            break;
+        case GameState.Clash:
+            // 1. Tampilkan panel UI untuk duel (sudah benar)
+            if (sequenceUIPanel != null) sequenceUIPanel.SetActive(true);
+            
+            // 2. Mainkan gambar latar belakangnya (sudah benar)
+            cutsceneManager.PlaySingleImage(highNoonShootSprite, 999f);
+
+            // 3. PERINTAHKAN SequenceManager untuk membuat ikon SEKARANG (INI YANG HILANG)
+            sequenceManager.StartClashP1();
+            sequenceManager.StartClashP2();
+            
+            // 4. Tampilkan teks status (sudah benar)
+            stateText.text = "SELESAIKAN URUTAN!";
+            break;
+        case GameState.WaitForContinue:
+            cutsceneManager.PlaySingleImage(continuePromptSprite, 999f);
+            stateText.text = "Tekan Q dan P untuk Lanjut";
+            break;
+        case GameState.GameOver:
+            VideoClip finalClip = (p1Lives > 0) ? p1WinsGameClip : p2WinsGameClip;
+            StartCoroutine(PlayCutsceneAndThen(finalClip, () => {
+                if (gameOverPanel != null) gameOverPanel.SetActive(true);
+                if (replayButton != null) replayButton.SetActive(true);
+            }));
+            break;
     }
+}
     #endregion
 
     #region Game Flow Coroutines
@@ -180,26 +191,26 @@ public class GameManager : MonoBehaviour
 
     // Urutan #4: Menunggu dengan waktu acak
     private IEnumerator HighNoonCountdown()
-    {
-        roundActive = true;
-        bellRang = false;
-        
-        stateText.text = "GET READY...";
-        bool imageDone = false;
-        Action onImageFinish = () => imageDone = true;
-        float randomDelay = UnityEngine.Random.Range(minHighNoonDelay, maxHighNoonDelay);
-        
-        cutsceneManager.OnCutsceneFinished += onImageFinish;
-        cutsceneManager.PlaySingleImage(highNoonWaitSprite, randomDelay);
-        yield return new WaitUntil(() => imageDone);
-        cutsceneManager.OnCutsceneFinished -= onImageFinish;
+{
+    roundActive = true;
+    bellRang = false;
+    
+    stateText.text = "GET READY...";
+    bool imageDone = false;
+    Action onImageFinish = () => imageDone = true;
+    float randomDelay = UnityEngine.Random.Range(minHighNoonDelay, maxHighNoonDelay);
+    
+    cutsceneManager.OnCutsceneFinished += onImageFinish;
+    cutsceneManager.PlaySingleImage(highNoonWaitSprite, randomDelay);
+    yield return new WaitUntil(() => imageDone);
+    cutsceneManager.OnCutsceneFinished -= onImageFinish;
 
-        // Mainkan suara bel di sini jika ada
-        bellRang = true;
-        
-        // Urutan #5: Memulai duel
-        ChangeState(GameState.Clash);
-    }
+    // Mainkan suara bel di sini jika ada
+    bellRang = true;
+    
+    // Cukup ganti state, jangan panggil StartClash di sini
+    ChangeState(GameState.Clash);
+}
     #endregion
 
     #region Input Event Handlers
