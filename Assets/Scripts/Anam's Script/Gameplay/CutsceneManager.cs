@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class CutsceneManager : MonoBehaviour
 {
     public enum StepType { Video, Image }
+    public enum DurationType { Fixed, Random }
 
     [Serializable]
     public class CutsceneStep
@@ -14,7 +15,26 @@ public class CutsceneManager : MonoBehaviour
         public StepType type;
         public VideoClip videoClip;
         public Sprite imageSprite;
-        public float imageDuration = 3f; // durasi tampilan image
+        
+        [Header("Image Duration Settings")]
+        public DurationType durationType = DurationType.Fixed;
+        
+        [Header("Fixed Duration")]
+        public float imageDuration = 3f; // durasi tampilan image (untuk fixed)
+        
+        [Header("Random Duration")]
+        public float minDuration = 1f;   // durasi minimum (untuk random)
+        public float maxDuration = 5f;   // durasi maksimum (untuk random)
+        
+        // Method untuk mendapatkan duration berdasarkan tipe
+        public float GetDuration()
+        {
+            if (durationType == DurationType.Random)
+            {
+                return UnityEngine.Random.Range(minDuration, maxDuration);
+            }
+            return imageDuration;
+        }
     }
 
     [Header("Sequence steps")]
@@ -118,6 +138,49 @@ public class CutsceneManager : MonoBehaviour
         PlaySequence(tmp);
     }
 
+    // Method tambahan untuk membuat image step dengan duration random
+    public void PlaySingleImage(Sprite sprite, float minDuration = 1f, float maxDuration = 5f)
+    {
+        if (sprite == null)
+        {
+            Debug.LogWarning("[CutsceneManager] PlaySingleImage called with null sprite.");
+            OnCutsceneFinished?.Invoke();
+            return;
+        }
+
+        CutsceneStep[] tmp = new CutsceneStep[1];
+        tmp[0] = new CutsceneStep 
+        { 
+            type = StepType.Image, 
+            imageSprite = sprite,
+            durationType = DurationType.Random,
+            minDuration = minDuration,
+            maxDuration = maxDuration
+        };
+        PlaySequence(tmp);
+    }
+
+    // Method untuk membuat image step dengan duration fixed
+    public void PlaySingleImage(Sprite sprite, float fixedDuration)
+    {
+        if (sprite == null)
+        {
+            Debug.LogWarning("[CutsceneManager] PlaySingleImage called with null sprite.");
+            OnCutsceneFinished?.Invoke();
+            return;
+        }
+
+        CutsceneStep[] tmp = new CutsceneStep[1];
+        tmp[0] = new CutsceneStep 
+        { 
+            type = StepType.Image, 
+            imageSprite = sprite,
+            durationType = DurationType.Fixed,
+            imageDuration = fixedDuration
+        };
+        PlaySequence(tmp);
+    }
+
     // ---------------------
     // Core sequence runner
     // ---------------------
@@ -164,15 +227,21 @@ public class CutsceneManager : MonoBehaviour
                 return;
             }
 
-            Debug.Log("[CutsceneManager] Menampilkan IMAGE: " + current.imageSprite.name + " (step " + stepIndex + "), durasi: " + current.imageDuration);
+            // Dapatkan duration berdasarkan tipe (fixed atau random)
+            float actualDuration = current.GetDuration();
+            string durationInfo = current.durationType == DurationType.Random ? 
+                $"random({current.minDuration:F1}-{current.maxDuration:F1})" : 
+                "fixed";
+
+            Debug.Log($"[CutsceneManager] Menampilkan IMAGE: {current.imageSprite.name} (step {stepIndex}), durasi: {actualDuration:F2}s [{durationInfo}]");
             imageDisplay.gameObject.SetActive(true);
 
             // assign texture and auto-fit / crop correctly (supports sprite in atlas)
             RawImageUtil.FillAndCropRawImageForSprite(imageDisplay, current.imageSprite);
 
-            // start wait coroutine
+            // start wait coroutine with actual duration
             if (imageCoroutine != null) StopCoroutine(imageCoroutine);
-            imageCoroutine = StartCoroutine(WaitAndNext(current.imageDuration));
+            imageCoroutine = StartCoroutine(WaitAndNext(actualDuration));
         }
         else
         {

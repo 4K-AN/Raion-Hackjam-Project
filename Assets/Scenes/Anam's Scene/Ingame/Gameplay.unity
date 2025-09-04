@@ -381,11 +381,24 @@ MonoBehaviour:
   - type: 0
     videoClip: {fileID: 32900000, guid: 7b49f7f9a6cd70d40a16706f8b42a925, type: 3}
     imageSprite: {fileID: 0}
+    durationType: 0
     imageDuration: 0
+    minDuration: 1
+    maxDuration: 5
   - type: 0
     videoClip: {fileID: 32900000, guid: 920a662c7688a6740838cb4e63ef80da, type: 3}
     imageSprite: {fileID: 0}
+    durationType: 0
     imageDuration: 0
+    minDuration: 1
+    maxDuration: 5
+  - type: 1
+    videoClip: {fileID: 0}
+    imageSprite: {fileID: -1918665799226547777, guid: 134e2a1b186a1e749a70c4ebd8674dac, type: 3}
+    durationType: 1
+    imageDuration: 0
+    minDuration: 5
+    maxDuration: 12
   videoPlayer: {fileID: 1339646210}
   imageDisplay: {fileID: 1490521579}
   autoPlayOnStart: 1
