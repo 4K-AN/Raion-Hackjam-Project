@@ -3,38 +3,52 @@ using UnityEngine.InputSystem;
 using TMPro;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.Video;
+using System;
 
 public class GameManager : MonoBehaviour
 {
-    public int p1Lives = 3;
-    public int p2Lives = 3;
-
-    private SequenceManager sequenceManager;
-
-    private bool p1Ready;
-    private bool p2Ready;
-
-    private bool p1InClash;
-    private bool p2InClash;
-
-    private bool bellRang;
-    private bool roundActive;
-
-    [Header("UI")]
+    [Header("Game Settings")]
+    public int startingLives = 3;
+    public float minHighNoonDelay = 2f;
+    public float maxHighNoonDelay = 5f;
+    
+    [Header("UI Elements")]
     public TMP_Text stateText;
     public TMP_Text p1Health;
     public TMP_Text p2Health;
     public TMP_Text p1ButtonHelp;
     public TMP_Text p2ButtonHelp;
     public GameObject gameOverPanel;
+    
+    [Header("Cutscene / Video (assign in Inspector)")]
+    public CutsceneManager cutsceneManager;         
+    public VideoClip earlyShotClip;                 
+    public VideoClip p1WinClip;                     
+    public VideoClip p2WinClip;                    
+    public VideoClip sequenceFailClip;             
+    public VideoClip gameOverClip;                  
 
-    [Header("High Noon Timing")]
-    public float minDelay = 2f;
-    public float maxDelay = 5f;
+    private int p1Lives;
+    private int p2Lives;
+    private SequenceManager sequenceManager;
+    private bool p1Ready;
+    private bool p2Ready;
+    private bool p1InClash;
+    private bool p2InClash;
+    private bool bellRang;
+    private bool roundActive;
 
     private void Awake()
     {
         sequenceManager = FindObjectOfType<SequenceManager>();
+        if (sequenceManager == null)
+        {
+            Debug.LogError("SequenceManager not found! Please add one to the scene.");
+        }
+        
+        p1Lives = startingLives;
+        p2Lives = startingLives;
         UpdateHealthUI();
     }
 
@@ -43,6 +57,12 @@ public class GameManager : MonoBehaviour
         QuickDrawInput.OnReady += HandleReady;
         QuickDrawInput.OnShoot += HandleShoot;
         QuickDrawInput.OnSequence += HandleSequence;
+        
+        if (sequenceManager != null)
+        {
+            sequenceManager.OnPlayerWinsClash += HandleClashWin;
+            sequenceManager.OnPlayerFailsSequence += HandleSequenceFailure;
+        }
     }
 
     private void OnDisable()
@@ -50,20 +70,23 @@ public class GameManager : MonoBehaviour
         QuickDrawInput.OnReady -= HandleReady;
         QuickDrawInput.OnShoot -= HandleShoot;
         QuickDrawInput.OnSequence -= HandleSequence;
+        
+        if (sequenceManager != null)
+        {
+            sequenceManager.OnPlayerWinsClash -= HandleClashWin;
+            sequenceManager.OnPlayerFailsSequence -= HandleSequenceFailure;
+        }
     }
 
     private void Start()
     {
-        stateText.text = "Press Ready to start!";
-        p1ButtonHelp.text = "Press Q to Ready";
-        p2ButtonHelp.text = "Press P to Ready";
-        roundActive = false;
+        ResetToWaitingState();
     }
 
     private void UpdateHealthUI()
     {
-        p1Health.text = "Health: " + p1Lives;
-        p2Health.text = "Health: " + p2Lives;
+        if (p1Health != null) p1Health.text = $"Health: {p1Lives}";
+        if (p2Health != null) p2Health.text = $"Health: {p2Lives}";
     }
 
     private void HandleReady(int playerID)
@@ -73,15 +96,15 @@ public class GameManager : MonoBehaviour
         if (playerID == 1)
         {
             p1Ready = true;
-            p1ButtonHelp.text = "Ready!";
+            if (p1ButtonHelp != null) p1ButtonHelp.text = "Ready!";
+            Debug.Log("Player 1 is ready");
         }
-        if (playerID == 2)
+        else if (playerID == 2)
         {
             p2Ready = true;
-            p2ButtonHelp.text = "Ready!";
+            if (p2ButtonHelp != null) p2ButtonHelp.text = "Ready!";
+            Debug.Log("Player 2 is ready");
         }
-
-            Debug.Log($"Player {playerID} is ready");
 
         if (p1Ready && p2Ready)
         {
@@ -95,95 +118,200 @@ public class GameManager : MonoBehaviour
         p1InClash = p2InClash = false;
         bellRang = false;
 
-        stateText.text = "Get Ready... (Wait till HIGH NOON)";
-        p1ButtonHelp.text = "Press W to Shoot";
-        p2ButtonHelp.text = "Press O to Shoot";
-        float delay = Random.Range(minDelay, maxDelay);
+        if (stateText != null) stateText.text = "Get Ready... (Wait for HIGH NOON!)";
+        if (p1ButtonHelp != null) p1ButtonHelp.text = "Press W to Shoot";
+        if (p2ButtonHelp != null) p2ButtonHelp.text = "Press O to Shoot";
+        
+        float delay = UnityEngine.Random.Range(minHighNoonDelay, maxHighNoonDelay);
         Debug.Log($"Waiting {delay:F2} seconds for HIGH NOON...");
         yield return new WaitForSeconds(delay);
 
         bellRang = true;
-        stateText.text = "HIGH NOON! SHOOT!";
-        
-        Debug.Log("🔔 HIGH NOON! SHOOT!");
+        if (stateText != null) stateText.text = "HIGH NOON! SHOOT!";
+        Debug.Log("HIGH NOON! SHOOT!");
     }
 
     private void HandleShoot(int playerID)
     {
+        if (!roundActive) return;
+        
         if (!bellRang)
         {
             if (playerID == 1) p1Lives--;
-            else p2Lives--;
+            else if (playerID == 2) p2Lives--;
 
             UpdateHealthUI();
-            stateText.text = $"Player {playerID} shot too early!";
-            Debug.Log($"Player {playerID} shot too early! Penalty -1 life");
+            if (stateText != null) stateText.text = $"Player {playerID} shot too early! (-1 life)";
+            Debug.Log($"Player {playerID} shot too early! Penalty: -1 life");
 
-            CheckGameOver();
+            
+            if (cutsceneManager != null && earlyShotClip != null)
+            {
+                StartCoroutine(PlayCutsceneAndThen(earlyShotClip, () =>
+                {
+                    if (!CheckGameOver()) ResetRound();
+                }));
+            }
+            else
+            {
+                StartCoroutine(DelayedRoundReset(2f));
+            }
             return;
         }
 
+        // NORMAL flow when bellRang == true
         if (bellRang)
         {
-            Debug.Log($"Player {playerID} SHOOTS! Entering clash");
-            if (playerID == 1) p1ButtonHelp.text = "";
-            else p2ButtonHelp.text = "";
-
+            Debug.Log($"Player {playerID} shoots! Entering clash...");
+            
             if (playerID == 1 && !p1InClash)
             {
                 p1InClash = true;
+                if (p1ButtonHelp != null) p1ButtonHelp.text = "Enter sequence!";
                 sequenceManager.StartClashP1();
             }
             else if (playerID == 2 && !p2InClash)
             {
                 p2InClash = true;
+                if (p2ButtonHelp != null) p2ButtonHelp.text = "Enter sequence!";
                 sequenceManager.StartClashP2();
             }
 
-            stateText.text = "CLASH!";
+            if (stateText != null) stateText.text = "CLASH! Complete your sequence!";
         }
     }
 
     private bool HandleSequence(int playerID, Key key)
     {
-        if (p1InClash || p2InClash)
+        if (sequenceManager != null && (p1InClash || p2InClash))
         {
-            bool win = sequenceManager.ProcessInput(playerID, key);
-            if (win)
-            {
-                if (playerID == 1) p2Lives--;
-                else p1Lives--;
-
-                UpdateHealthUI();
-                stateText.text = $"Player {playerID} wins the clash!";
-                Debug.Log($"Player {playerID} wins the clash!");
-
-                CheckGameOver();
-
-                if (p1Lives > 0 && p2Lives > 0)
-                {
-                    ResetRound();
-                }
-            }
-            return win;
+            return sequenceManager.ProcessInput(playerID, key);
         }
         return false;
     }
+    
+    private void HandleClashWin(int winnerID)
+    {
+        if (winnerID == 1)
+        {
+            p2Lives--;
+            if (stateText != null) stateText.text = "Player 1 wins the clash!";
+        }
+        else if (winnerID == 2)
+        {
+            p1Lives--;
+            if (stateText != null) stateText.text = "Player 2 wins the clash!";
+        }
+        
+        UpdateHealthUI();
+        Debug.Log($"Player {winnerID} wins the clash!");
+        
+       
+        VideoClip winClip = (winnerID == 1) ? p1WinClip : p2WinClip;
+        if (cutsceneManager != null && winClip != null)
+        {
+            StartCoroutine(PlayCutsceneAndThen(winClip, () =>
+            {
+                if (!CheckGameOver()) ResetRound();
+            }));
+        }
+        else
+        {
+            StartCoroutine(DelayedRoundReset(2f));
+        }
+    }
+    
+    private void HandleSequenceFailure(int playerID)
+    {
+        if (playerID == 1)
+        {
+            p1Lives--;
+            if (stateText != null) stateText.text = "Player 1 failed the sequence!";
+        }
+        else if (playerID == 2)
+        {
+            p2Lives--;
+            if (stateText != null) stateText.text = "Player 2 failed the sequence!";
+        }
+        
+        UpdateHealthUI();
+        Debug.Log($"Player {playerID} failed the sequence!");
+        
+       
+        if (cutsceneManager != null && sequenceFailClip != null)
+        {
+            StartCoroutine(PlayCutsceneAndThen(sequenceFailClip, () =>
+            {
+                if (!CheckGameOver()) ResetRound();
+            }));
+        }
+        else
+        {
+            StartCoroutine(DelayedRoundReset(2f));
+        }
+    }
 
-    private void CheckGameOver()
+   
+    private IEnumerator PlayCutsceneAndThen(VideoClip clip, Action after)
+    {
+        if (cutsceneManager == null || clip == null)
+        {
+            after?.Invoke();
+            yield break;
+        }
+
+        bool done = false;
+        void Handler() { done = true; }
+        cutsceneManager.OnCutsceneFinished += Handler;
+
+       
+        bool prevRoundActive = roundActive;
+        roundActive = false;
+
+        
+        cutsceneManager.PlaySingleClip(clip);
+
+        
+        float timeout = 30f; 
+        float elapsed = 0f;
+        while (!done && elapsed < timeout)
+        {
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        cutsceneManager.OnCutsceneFinished -= Handler;
+
+        
+        after?.Invoke();
+
+        
+    }
+
+    private IEnumerator DelayedRoundReset(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        
+        if (CheckGameOver()) yield break;
+        
+        ResetRound();
+    }
+
+    private bool CheckGameOver()
     {
         if (p1Lives <= 0)
         {
-            stateText.text = "Player 2 WINS!";
-            roundActive = false;
+            if (stateText != null) stateText.text = "Player 2 WINS the duel!";
             EndGame();
+            return true;
         }
         else if (p2Lives <= 0)
         {
-            stateText.text = "Player 1 WINS!";
-            roundActive = false;
+            if (stateText != null) stateText.text = "Player 1 WINS the duel!";
             EndGame();
+            return true;
         }
+        return false;
     }
 
     private void ResetRound()
@@ -192,21 +320,43 @@ public class GameManager : MonoBehaviour
         roundActive = false;
         bellRang = false;
         p1InClash = p2InClash = false;
-        sequenceManager.ClearSequences();
+       
+        if (sequenceManager != null)
+        {
+            sequenceManager.ClearSequences();
+        }
 
-        stateText.text = "Press Ready for next round!";
-        p1ButtonHelp.text = "Press Q to Ready";
-        p2ButtonHelp.text = "Press P to Ready";
+        ResetToWaitingState();
         Debug.Log("Round reset. Waiting for players...");
+    }
+    
+    private void ResetToWaitingState()
+    {
+        if (stateText != null) stateText.text = "Press Ready to start the next round!";
+        if (p1ButtonHelp != null) p1ButtonHelp.text = "Press Q to Ready";
+        if (p2ButtonHelp != null) p2ButtonHelp.text = "Press P to Ready";
     }
 
     private void EndGame()
     {
-        QuickDrawInput.OnReady -= HandleReady;
-        QuickDrawInput.OnShoot -= HandleShoot;
-        QuickDrawInput.OnSequence -= HandleSequence;
+        roundActive = false;
         Debug.Log("Game Over!");
-        gameOverPanel.SetActive(true);
+        
+      
+        if (cutsceneManager != null && gameOverClip != null)
+        {
+            StartCoroutine(PlayCutsceneAndThen(gameOverClip, () =>
+            {
+                if (gameOverPanel != null) gameOverPanel.SetActive(true);
+            }));
+        }
+        else
+        {
+            if (gameOverPanel != null)
+            {
+                gameOverPanel.SetActive(true);
+            }
+        }
     }
 
     public void RestartGame()
@@ -214,4 +364,7 @@ public class GameManager : MonoBehaviour
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.name);
     }
+
+    public bool IsRoundActive() => roundActive;
+    public int GetPlayerLives(int playerID) => playerID == 1 ? p1Lives : p2Lives;
 }

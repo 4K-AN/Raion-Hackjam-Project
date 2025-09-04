@@ -94,6 +94,35 @@ public class SceneLoader : MonoBehaviour
         Debug.Log($"[SceneLoader] Loading scene by build index: {index}");
         SceneManager.LoadScene(index);
     }
+    public void LoadAdditive()
+{
+    if (string.IsNullOrEmpty(sceneName))
+    {
+        Debug.LogError("[SceneLoader] sceneName belum di-set di Inspector untuk fungsi LoadAdditive!");
+        return;
+    }
+    Debug.Log($"[SceneLoader] Memuat scene '{sceneName}' secara aditif.");
+    // Perhatikan LoadSceneMode.Additive di sini
+    SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
+}
+
+// Menutup/unload scene yang di-set di Inspector
+/// <summary>
+/// 卸载场景的方法
+/// </summary>
+public void Unload()
+{
+    if (string.IsNullOrEmpty(sceneName))
+    {
+        Debug.LogError("[SceneLoader] sceneName belum di-set di Inspector untuk fungsi Unload!");
+        // 如果场景名称未设置，输出错误日志并返回
+        return;
+    }
+    Debug.Log($"[SceneLoader] Menutup scene '{sceneName}'.");
+    // 记录日志，显示正在关闭的场景名称
+    SceneManager.UnloadSceneAsync(sceneName);
+    // 异步卸载指定场景
+}
 
     private System.Collections.IEnumerator LoadAsyncCoroutine(string name)
     {

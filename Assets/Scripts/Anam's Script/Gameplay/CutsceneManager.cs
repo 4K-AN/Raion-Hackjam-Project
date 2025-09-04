@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Video;
@@ -7,7 +8,7 @@ public class CutsceneManager : MonoBehaviour
 {
     public enum StepType { Video, Image }
 
-    [System.Serializable]
+    [Serializable]
     public class CutsceneStep
     {
         public StepType type;
@@ -21,23 +22,35 @@ public class CutsceneManager : MonoBehaviour
 
     [Header("References")]
     public VideoPlayer videoPlayer;
-    public RawImage imageDisplay; // Tetap RawImage
+    public RawImage imageDisplay; // gunakan RawImage agar bisa assign Texture
 
-    [Header("Optional skip controls (for testing)")]
+    [Header("Behaviour")]
+    public bool autoPlayOnStart = false; // jika true akan PlayStep() di Start()
     public bool allowSkip = true;
     public KeyCode skipKey = KeyCode.Space;
     public bool skipOnMouseClick = true;
 
+    // public event supaya GameManager bisa menunggu / subscribe
+    public Action OnCutsceneFinished;
+
+    // runtime
     private int stepIndex = 0;
     private Coroutine imageCoroutine = null;
     private bool isFinished = false;
 
+    // temporary sequence support
+    private bool isTempSequence = false;
+    private CutsceneStep[] backupSteps = null;
+
     void Start()
     {
-        // safety checks
         if (videoPlayer == null) Debug.LogWarning("[CutsceneManager] VideoPlayer not assigned.");
-        if (imageDisplay == null) Debug.LogWarning("[CutsceneManager] ImageDisplay not assigned.");
-        PlayStep();
+        if (imageDisplay == null) Debug.LogWarning("[CutsceneManager] ImageDisplay (RawImage) not assigned.");
+
+        if (autoPlayOnStart)
+        {
+            PlaySequence(); // play steps assigned in inspector
+        }
     }
 
     void Update()
@@ -51,16 +64,73 @@ public class CutsceneManager : MonoBehaviour
         }
     }
 
+    // ---------------------
+    // Public API
+    // ---------------------
+    public bool IsPlaying => !isFinished && (imageCoroutine != null || (videoPlayer != null && videoPlayer.isPlaying));
+
+    // play the sequence defined in 'steps' from inspector
+    public void PlaySequence()
+    {
+        if (steps == null || steps.Length == 0)
+        {
+            Debug.LogWarning("[CutsceneManager] PlaySequence called but no steps defined.");
+            SequenceFinished();
+            return;
+        }
+
+        stepIndex = 0;
+        isFinished = false;
+        PlayStep();
+    }
+
+    // play a custom sequence (temporary). After finished original steps restored.
+    public void PlaySequence(CutsceneStep[] newSteps)
+    {
+        if (newSteps == null || newSteps.Length == 0)
+        {
+            Debug.LogWarning("[CutsceneManager] PlaySequence(newSteps) called with null/empty.");
+            SequenceFinished();
+            return;
+        }
+
+        backupSteps = steps;
+        steps = newSteps;
+        isTempSequence = true;
+        stepIndex = 0;
+        isFinished = false;
+        PlayStep();
+    }
+
+    // play a single VideoClip (temporary) — convenient for GameManager usage
+    public void PlaySingleClip(VideoClip clip)
+    {
+        if (clip == null)
+        {
+            Debug.LogWarning("[CutsceneManager] PlaySingleClip called with null clip.");
+            // still invoke finished to avoid callers waiting forever
+            OnCutsceneFinished?.Invoke();
+            return;
+        }
+
+        CutsceneStep[] tmp = new CutsceneStep[1];
+        tmp[0] = new CutsceneStep { type = StepType.Video, videoClip = clip, imageDuration = 0f };
+        PlaySequence(tmp);
+    }
+
+    // ---------------------
+    // Core sequence runner
+    // ---------------------
     void PlayStep()
     {
         // Matikan semua dulu
         if (videoPlayer != null) videoPlayer.gameObject.SetActive(false);
         if (imageDisplay != null) imageDisplay.gameObject.SetActive(false);
 
-        if (stepIndex >= steps.Length)
+        if (steps == null || stepIndex >= steps.Length)
         {
             Debug.Log("[CutsceneManager] Cutscene selesai semua step!");
-            isFinished = true;
+            SequenceFinished();
             return;
         }
 
@@ -83,7 +153,6 @@ public class CutsceneManager : MonoBehaviour
 
             videoPlayer.clip = current.videoClip;
             videoPlayer.Prepare();
-            // Wait until prepared then play (use coroutine)
             StartCoroutine(PrepareAndPlayVideo(videoPlayer));
         }
         else if (current.type == StepType.Image && current.imageSprite != null)
@@ -97,21 +166,11 @@ public class CutsceneManager : MonoBehaviour
 
             Debug.Log("[CutsceneManager] Menampilkan IMAGE: " + current.imageSprite.name + " (step " + stepIndex + "), durasi: " + current.imageDuration);
             imageDisplay.gameObject.SetActive(true);
-            
-            // Convert Sprite to Texture and assign to RawImage
-            imageDisplay.texture = current.imageSprite.texture;
-            
-            // Optional: Adjust UV rect untuk menampilkan bagian sprite yang benar
-            Rect spriteRect = current.imageSprite.rect;
-            Rect uvRect = new Rect(
-                spriteRect.x / current.imageSprite.texture.width,
-                spriteRect.y / current.imageSprite.texture.height,
-                spriteRect.width / current.imageSprite.texture.width,
-                spriteRect.height / current.imageSprite.texture.height
-            );
-            imageDisplay.uvRect = uvRect;
 
-            // pastikan coroutine image sebelumnya dihentikan
+            // assign texture and auto-fit / crop correctly (supports sprite in atlas)
+            RawImageUtil.FillAndCropRawImageForSprite(imageDisplay, current.imageSprite);
+
+            // start wait coroutine
             if (imageCoroutine != null) StopCoroutine(imageCoroutine);
             imageCoroutine = StartCoroutine(WaitAndNext(current.imageDuration));
         }
@@ -122,60 +181,11 @@ public class CutsceneManager : MonoBehaviour
         }
     }
 
-    public static class RawImageUtil
-    {
-        // raw: target RawImage, tex: texture yang sudah diassign ke raw.texture
-        public static void FillAndCropRawImage(RawImage raw, Texture tex)
-        {
-            if (raw == null || tex == null) return;
-
-            // Pastikan layout UI sudah ter-update sehingga parent rect valid
-            Canvas.ForceUpdateCanvases();
-
-            // ambil ukuran parent (biasanya Canvas area)
-            RectTransform parentRt = raw.rectTransform.parent as RectTransform;
-            float parentW = parentRt != null ? parentRt.rect.width : raw.rectTransform.rect.width;
-            float parentH = parentRt != null ? parentRt.rect.height : raw.rectTransform.rect.height;
-            if (parentW <= 0f || parentH <= 0f)
-            {
-                // fallback: pakai raw rect
-                parentW = Mathf.Max(1f, raw.rectTransform.rect.width);
-                parentH = Mathf.Max(1f, raw.rectTransform.rect.height);
-            }
-
-            float texW = tex.width;
-            float texH = tex.height;
-            if (texW <= 0f || texH <= 0f) return;
-
-            // scale untuk "cover" (fill & crop)
-            float sX = parentW / texW;
-            float sY = parentH / texH;
-            float s = Mathf.Max(sX, sY);
-
-            // visible portion in UV space (0..1)
-            float uvW = (parentW / (texW * s)); // equivalent to sX / s
-            float uvH = (parentH / (texH * s)); // equivalent to sY / s
-
-            // center the uvRect
-            float uvX = Mathf.Clamp01((1f - uvW) * 0.5f);
-            float uvY = Mathf.Clamp01((1f - uvH) * 0.5f);
-
-            raw.uvRect = new Rect(uvX, uvY, Mathf.Clamp01(uvW), Mathf.Clamp01(uvH));
-
-            // ensure anchors stretch full screen (optional safety)
-            RectTransform rt = raw.rectTransform;
-            rt.anchorMin = Vector2.zero;
-            rt.anchorMax = Vector2.one;
-            rt.anchoredPosition = Vector2.zero;
-            rt.sizeDelta = Vector2.zero;
-
-            Debug.Log($"[RawImageUtil] FillCrop parent({parentW}x{parentH}) tex({texW}x{texH}) uvRect={raw.uvRect}");
-        }
-    }
-
+    // ---------------------
+    // Video prepare & play
+    // ---------------------
     private IEnumerator PrepareAndPlayVideo(VideoPlayer vp)
     {
-        // tunggu sampai prepared (atau timeout 10s)
         float timeout = 10f;
         float timer = 0f;
         while (!vp.isPrepared && timer < timeout)
@@ -192,7 +202,24 @@ public class CutsceneManager : MonoBehaviour
             yield break;
         }
 
-        // assign texture ke target (jika menggunakan RawImage set up berbeda; di sini kita pake VideoPlayer render ke camera atau RenderTexture)
+        // Assign video texture to RawImage when possible so imageDisplay can control aspect/cropping
+        // If VideoPlayer uses TargetTexture (RenderTexture), use that. Otherwise use vp.texture (API).
+        if (imageDisplay != null)
+        {
+            if (vp.targetTexture != null)
+            {
+                imageDisplay.texture = vp.targetTexture;
+                RawImageUtil.FillAndCropRawImage(imageDisplay, vp.targetTexture);
+                imageDisplay.gameObject.SetActive(true);
+            }
+            else if (vp.texture != null)
+            {
+                imageDisplay.texture = vp.texture;
+                RawImageUtil.FillAndCropRawImage(imageDisplay, vp.texture);
+                imageDisplay.gameObject.SetActive(true);
+            }
+        }
+
         vp.Play();
         Debug.Log("[CutsceneManager] Video started: " + (vp.clip ? vp.clip.name : "null"));
 
@@ -217,7 +244,6 @@ public class CutsceneManager : MonoBehaviour
         float t = 0f;
         while (t < duration)
         {
-            // jika user skip, coroutine akan dihentikan oleh SkipCurrentStep()
             t += Time.unscaledDeltaTime;
             yield return null;
         }
@@ -270,7 +296,6 @@ public class CutsceneManager : MonoBehaviour
         {
             if (videoPlayer != null)
             {
-                // unsubscribe agar OnVideoEnd tidak terpanggil lagi
                 videoPlayer.loopPointReached -= OnVideoEnd;
                 if (videoPlayer.isPlaying) videoPlayer.Stop();
             }
@@ -280,5 +305,124 @@ public class CutsceneManager : MonoBehaviour
 
         // default
         NextStep();
+    }
+
+    // ---------------------
+    // When sequence finishes (end of steps)
+    // ---------------------
+    private void SequenceFinished()
+    {
+        isFinished = true;
+
+        // restore steps if temporary
+        if (isTempSequence)
+        {
+            steps = backupSteps;
+            backupSteps = null;
+            isTempSequence = false;
+        }
+
+        Debug.Log("[CutsceneManager] Sequence finished. Firing OnCutsceneFinished.");
+        OnCutsceneFinished?.Invoke();
+    }
+
+    // ---------------------
+    // RawImage helper util
+    // ---------------------
+    public static class RawImageUtil
+    {
+        // full-texture version: assign raw.texture and crop/cover to parent area
+        public static void FillAndCropRawImage(RawImage raw, Texture tex)
+        {
+            if (raw == null || tex == null) return;
+
+            Canvas.ForceUpdateCanvases();
+
+            RectTransform parentRt = raw.rectTransform.parent as RectTransform;
+            float parentW = parentRt != null ? parentRt.rect.width : raw.rectTransform.rect.width;
+            float parentH = parentRt != null ? parentRt.rect.height : raw.rectTransform.rect.height;
+            if (parentW <= 0f || parentH <= 0f)
+            {
+                parentW = Mathf.Max(1f, raw.rectTransform.rect.width);
+                parentH = Mathf.Max(1f, raw.rectTransform.rect.height);
+            }
+
+            float texW = tex.width;
+            float texH = tex.height;
+            if (texW <= 0f || texH <= 0f) return;
+
+            float sX = parentW / texW;
+            float sY = parentH / texH;
+            float s = Mathf.Max(sX, sY);
+
+            float uvW = (parentW / (texW * s));
+            float uvH = (parentH / (texH * s));
+
+            float uvX = Mathf.Clamp01((1f - uvW) * 0.5f);
+            float uvY = Mathf.Clamp01((1f - uvH) * 0.5f);
+
+            raw.uvRect = new Rect(uvX, uvY, Mathf.Clamp01(uvW), Mathf.Clamp01(uvH));
+
+            RectTransform rt = raw.rectTransform;
+            rt.anchorMin = Vector2.zero;
+            rt.anchorMax = Vector2.one;
+            rt.anchoredPosition = Vector2.zero;
+            rt.sizeDelta = Vector2.zero;
+
+            Debug.Log($"[RawImageUtil] FillCrop parent({parentW}x{parentH}) tex({texW}x{texH}) uvRect={raw.uvRect}");
+        }
+
+        // Sprite-aware version: supports sprites that are subrects (atlas)
+        public static void FillAndCropRawImageForSprite(RawImage raw, Sprite sprite)
+        {
+            if (raw == null || sprite == null || sprite.texture == null) return;
+
+            Canvas.ForceUpdateCanvases();
+
+            RectTransform parentRt = raw.rectTransform.parent as RectTransform;
+            float parentW = parentRt != null ? parentRt.rect.width : raw.rectTransform.rect.width;
+            float parentH = parentRt != null ? parentRt.rect.height : raw.rectTransform.rect.height;
+            if (parentW <= 0f || parentH <= 0f)
+            {
+                parentW = Mathf.Max(1f, raw.rectTransform.rect.width);
+                parentH = Mathf.Max(1f, raw.rectTransform.rect.height);
+            }
+
+            Texture tex = sprite.texture;
+            Rect spriteRect = sprite.rect; // subrect on texture
+            float texW = tex.width;
+            float texH = tex.height;
+
+            float sX = parentW / spriteRect.width;
+            float sY = parentH / spriteRect.height;
+            float s = Mathf.Max(sX, sY);
+
+            // uv width/height relative to full texture
+            float uvW = parentW / (texW * s);
+            float uvH = parentH / (texH * s);
+
+            // normalized sprite region
+            float spriteNormX = spriteRect.x / texW;
+            float spriteNormY = spriteRect.y / texH;
+            float spriteNormW = spriteRect.width / texW;
+            float spriteNormH = spriteRect.height / texH;
+
+            float finalW = Mathf.Clamp01(uvW);
+            float finalH = Mathf.Clamp01(uvH);
+
+            float uvX = spriteNormX + Mathf.Clamp01((spriteNormW - finalW) * 0.5f);
+            float uvY = spriteNormY + Mathf.Clamp01((spriteNormH - finalH) * 0.5f);
+
+            raw.texture = tex;
+            raw.uvRect = new Rect(uvX, uvY, Mathf.Clamp01(finalW * spriteNormW), Mathf.Clamp01(finalH * spriteNormH));
+
+            RectTransform rt = raw.rectTransform;
+            rt.anchorMin = Vector2.zero;
+            rt.anchorMax = Vector2.one;
+            rt.anchoredPosition = Vector2.zero;
+            rt.sizeDelta = Vector2.zero;
+
+            Debug.Log($"[RawImageUtil] FillCropSprite parent({parentW}x{parentH}) spriteRect({spriteRect.width}x{spriteRect.height}) uvRect={raw.uvRect}");
+        }
     }
 }

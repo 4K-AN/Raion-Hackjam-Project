@@ -20,6 +20,30 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Anam's Scene/Ingame/Gameplay.unity
     guid: 5b6e2c6d3811c0147bdc83c1205d2c0e
+  - enabled: 1
+    path: Assets/Scenes/Anam's Scene/Main Menu/Tutorial UI PLAY.unity
+    guid: fdd3fdfdf783d94479ff5b3449d080a8
+  - enabled: 1
+    path: Assets/Scenes/Anam's Scene/Main Menu/Control UI PLAY.unity
+    guid: 6bb906893ba35fb48ab9d8871a5cd1d1
+  - enabled: 1
+    path: Assets/Scenes/Erza's Scenes/Erza's Scene.unity
+    guid: a568990a7b0b60d41939f5cea3941221
+  - enabled: 1
+    path: Assets/Scenes/Erza's Scenes/Pause Menu/Pause Menu.unity
+    guid: 0909b86352a9f2f4289f7c683ea0d903
+  - enabled: 1
+    path: Assets/Scenes/Erza's Scenes/Pause Menu/Tutorial UI Pause.unity
+    guid: b484c3f4ddf39cb48b184fec227de879
+  - enabled: 1
+    path: Assets/Scenes/Erza's Scenes/Pause Menu/Control UI Pause.unity
+    guid: ce53913a9c0e4fd40891b175d299881a
+  - enabled: 1
+    path: Assets/Scenes/Anam's Scene/Main Menu/Control UI GAME.unity
+    guid: e55877fa34b8c284fac69bffbef3af5e
+  - enabled: 1
+    path: Assets/Scenes/Anam's Scene/Main Menu/Tutorial UI GAME.unity
+    guid: 6ab32ec3240ff654ab5dbc3ba106ef55
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
