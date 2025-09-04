@@ -382,6 +382,10 @@ MonoBehaviour:
     videoClip: {fileID: 32900000, guid: 7b49f7f9a6cd70d40a16706f8b42a925, type: 3}
     imageSprite: {fileID: 0}
     imageDuration: 0
+  - type: 0
+    videoClip: {fileID: 32900000, guid: 3e8afefb3317f24418e637bfaf19c3f7, type: 3}
+    imageSprite: {fileID: 0}
+    imageDuration: 0
   videoPlayer: {fileID: 1339646210}
   imageDisplay: {fileID: 1490521579}
   autoPlayOnStart: 1
@@ -584,7 +588,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 4.49, y: 455.77}
+  m_AnchoredPosition: {x: -890.54, y: 455.77}
   m_SizeDelta: {x: 80, y: 71.6564}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &301084012
@@ -711,7 +715,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &369943451
 Transform:
   m_ObjectHideFlags: 0
