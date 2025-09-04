@@ -383,7 +383,7 @@ MonoBehaviour:
     imageSprite: {fileID: 0}
     imageDuration: 0
   - type: 0
-    videoClip: {fileID: 32900000, guid: 3e8afefb3317f24418e637bfaf19c3f7, type: 3}
+    videoClip: {fileID: 32900000, guid: 920a662c7688a6740838cb4e63ef80da, type: 3}
     imageSprite: {fileID: 0}
     imageDuration: 0
   videoPlayer: {fileID: 1339646210}
