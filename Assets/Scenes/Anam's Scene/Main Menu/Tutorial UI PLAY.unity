@@ -507,9 +507,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c8de0f2b917e6e4f8cc46d512c3c9b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: Main Menu
-  sceneBuildIndex: 0
-  sceneAsset: {fileID: 102900000, guid: 95f2bddbef4fdf94db08a663b29c6c27, type: 3}
+  sceneName: Gameplay
+  sceneBuildIndex: 4
+  sceneAsset: {fileID: 102900000, guid: 5b6e2c6d3811c0147bdc83c1205d2c0e, type: 3}
 --- !u!1 &1564576319
 GameObject:
   m_ObjectHideFlags: 0
