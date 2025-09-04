@@ -1749,14 +1749,14 @@ MonoBehaviour:
   p2WinsRoundClip: {fileID: 32900000, guid: 8961753479d451d4490ede5372d61efc, type: 3}
   p1GetsHitClip: {fileID: 32900000, guid: 8961753479d451d4490ede5372d61efc, type: 3}
   p2GetsHitClip: {fileID: 32900000, guid: bb546bec404590e4b9bce0b9205e2e80, type: 3}
-  p1WinsGameClip: {fileID: 0}
-  p2WinsGameClip: {fileID: 0}
-  earlyShotClip: {fileID: 0}
-  sequenceFailClip: {fileID: 0}
+  p1WinsGameClip: {fileID: 32900000, guid: 2e77960c6655b994d9815b01807bb3a9, type: 3}
+  p2WinsGameClip: {fileID: 32900000, guid: 9e070e25eea9e9c46aeccffc1863b5e4, type: 3}
+  earlyShotClip: {fileID: 32900000, guid: 2e77960c6655b994d9815b01807bb3a9, type: 3}
+  sequenceFailClip: {fileID: 32900000, guid: 77267cf80542a8b48b2d2c5cad531d12, type: 3}
   readyPromptSprite: {fileID: 4100129014753480916, guid: b272ece31cd3a36459dc2053714f68a5, type: 3}
   highNoonWaitSprite: {fileID: -1918665799226547777, guid: 134e2a1b186a1e749a70c4ebd8674dac, type: 3}
   highNoonShootSprite: {fileID: -6470460504253458178, guid: 974be906766b2b44d9fc5c478d258542, type: 3}
-  continuePromptSprite: {fileID: 0}
+  continuePromptSprite: {fileID: -8043314205108096175, guid: 62f174089e6198f4d9d3fdfe3fab8dd7, type: 3}
 --- !u!4 &1018109873
 Transform:
   m_ObjectHideFlags: 0
