@@ -6,13 +6,23 @@ public class BGMController : MonoBehaviour
 {
     public static BGMController instance;
 
+    [Header("Komponen Audio")]
     public AudioSource audioSource;
+
+    [Header("Pengaturan Scene & Lagu")]
+    [Tooltip("Tulis nama scene untuk Main Menu.")]
+    public string mainMenuSceneName = "Main Menu";
+    [Tooltip("Lagu yang akan diputar di scene Main Menu.")]
     public AudioClip mainMenuMusic;
+
+    [Tooltip("Tulis nama scene untuk Gameplay.")]
+    public string gameplaySceneName = "Gameplay";
+
+    [Header("Pengaturan Lanjutan")]
+    [Tooltip("Tulis nama scene di mana musik harus tetap berjalan (Contoh: Tutorial).")]
     public List<string> scenesToKeepMusic;
 
-    // VARIABEL BARU: "Ingatan" untuk lagu yang sedang diputar
-    private AudioClip currentMusicPlaying;
-
+    // Fungsi Awake untuk Singleton Pattern
     void Awake()
     {
         if (instance != null && instance != this)
@@ -27,56 +37,51 @@ public class BGMController : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
+    // Fungsi yang berjalan setiap pindah scene
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // Debug untuk melacak status
-        Debug.Log("Scene Loaded: " + scene.name + ". Musik saat ini: " + (currentMusicPlaying ? currentMusicPlaying.name : "None"));
-
         if (scenesToKeepMusic.Contains(scene.name))
         {
-            // Jika scene ini ada di daftar "keep music" (misal: Tutorial), jangan lakukan apa-apa.
-            Debug.Log("Scene ada di daftar 'Keep Music'. Tidak ada perubahan musik.");
             return;
         }
-
-        // --- LOGIKA UTAMA YANG DIPERBARUI ---
-        if (scene.name == "Main Menu")
+        
+        if (scene.name == mainMenuSceneName)
         {
-            // Cek "ingatan" kita. Jika lagu yang seharusnya main BUKAN lagu MainMenu, baru kita mainkan.
-            if (currentMusicPlaying != mainMenuMusic)
+            if (audioSource.clip != mainMenuMusic || !audioSource.isPlaying)
             {
                 PlayMusic(mainMenuMusic);
             }
         }
-        else if (scene.name == "Gameplay")
+        else if (scene.name == gameplaySceneName)
         {
             StopMusic();
         }
         else
         {
-            // Untuk scene lain yang tidak terdaftar, hentikan musik
             StopMusic();
         }
     }
 
+    // Fungsi untuk memainkan musik
     public void PlayMusic(AudioClip clipToPlay)
     {
-        Debug.Log("Memainkan musik: " + clipToPlay.name);
+        if (clipToPlay == null) 
+        {
+            StopMusic();
+            return;
+        }
         audioSource.clip = clipToPlay;
         audioSource.loop = true;
         audioSource.Play();
-        // Simpan lagu yang sedang main ke dalam "ingatan"
-        currentMusicPlaying = clipToPlay;
     }
 
+    // Fungsi untuk menghentikan musik
     public void StopMusic()
     {
-        Debug.Log("Musik dihentikan.");
         audioSource.Stop();
-        // Kosongkan "ingatan" karena tidak ada musik yang main
-        currentMusicPlaying = null;
     }
 
+    // Fungsi OnDestroy untuk membersihkan event
     private void OnDestroy()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;

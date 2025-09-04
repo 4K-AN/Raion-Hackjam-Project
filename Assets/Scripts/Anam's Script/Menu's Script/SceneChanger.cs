@@ -1,4 +1,3 @@
-// File: SceneLoader.cs
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,23 +7,25 @@ using UnityEditor;
 
 public class SceneLoader : MonoBehaviour
 {
-    [Header("Runtime settings (used at runtime)")]
-    [Tooltip("Jika non-empty, Load() akan menggunakan nama scene ini.")]
+    [Header("Pengaturan Runtime")]
+    [Tooltip("Jika diisi, Load() akan menggunakan nama scene ini.")]
     [SerializeField] private string sceneName = "";
 
-    [Tooltip("Jika >= 0, LoadByIndex() akan menggunakan index ini.")]
+    [Tooltip("Jika >= 0, Load() akan menggunakan index ini.")]
     [SerializeField] private int sceneBuildIndex = -1;
 
     #if UNITY_EDITOR
-    [Header("Editor: drag a scene from Project here (editor-only)")]
+    [Header("Editor: Drag Scene dari Project ke sini")]
     [SerializeField] private SceneAsset sceneAsset = null;
     #endif
 
-    // -----------------------------
-    // Methods meant to be assigned to Button OnClick()
-    // -----------------------------
+    // =============================================
+    // FUNGSI-FUNGSI UTAMA UNTUK TOMBOL UI
+    // =============================================
 
-    // Panggil ini di Button -> On Click()
+    /// <summary>
+    /// Memuat scene secara normal (mengganti scene saat ini).
+    /// </summary>
     public void Load()
     {
         if (!string.IsNullOrEmpty(sceneName))
@@ -39,48 +40,65 @@ public class SceneLoader : MonoBehaviour
             return;
         }
 
-        Debug.LogError("[SceneLoader] No scene specified. Set SceneAsset (Editor) or sceneName/sceneBuildIndex in Inspector.");
+        Debug.LogError("[SceneLoader] Tidak ada scene yang ditentukan. Atur di Inspector.");
     }
 
-    // Async version (loads in background)
-    public void LoadAsync()
+    /// <summary>
+    /// Memuat scene secara aditif (menumpuk di atas scene saat ini).
+    /// </summary>
+    public void LoadAdditive()
     {
-        if (!string.IsNullOrEmpty(sceneName))
+        if (string.IsNullOrEmpty(sceneName))
         {
-            StartCoroutine(LoadAsyncCoroutine(sceneName));
+            Debug.LogError("[SceneLoader] sceneName belum di-set untuk LoadAdditive!");
             return;
         }
+        Debug.Log($"[SceneLoader] Memuat scene '{sceneName}' secara aditif.");
+        SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
+    }
 
-        if (sceneBuildIndex >= 0)
+    /// <summary>
+    /// Menutup/unload scene yang namanya ditentukan di Inspector.
+    /// </summary>
+    public void Unload()
+    {
+        if (string.IsNullOrEmpty(sceneName))
         {
-            StartCoroutine(LoadAsyncCoroutine(sceneBuildIndex));
+            Debug.LogError("[SceneLoader] sceneName belum di-set untuk Unload!");
             return;
         }
-
-        Debug.LogError("[SceneLoader] No scene specified for async load.");
+        Debug.Log($"[SceneLoader] Menutup scene '{sceneName}'.");
+        SceneManager.UnloadSceneAsync(sceneName);
     }
 
-    // Load next scene in build order
-    public void LoadNextScene()
+    /// <summary>
+    /// Kembali ke Main Menu dan me-reset sistem BGM (musik).
+    /// </summary>
+    public void ExitToMainMenuAndReset()
     {
-        int current = SceneManager.GetActiveScene().buildIndex;
-        int next = current + 1;
-        if (next < SceneManager.sceneCountInBuildSettings)
-            TryLoadByIndex(next);
-        else
-            Debug.LogWarning("[SceneLoader] This is the last scene in Build Settings.");
+        if (BGMController.instance != null)
+        {
+            // Hancurkan BGM_Manager yang lama
+            Destroy(BGMController.instance.gameObject);
+            // Kosongkan referensi instance agar yang baru bisa dibuat
+            BGMController.instance = null;
+        }
+        
+        // Pindah ke scene Main Menu
+        Load(); 
     }
 
-    // -----------------------------
-    // Helpers
-    // -----------------------------
+    // =============================================
+    // FUNGSI BANTUAN
+    // =============================================
+
     private void TryLoadByName(string name)
     {
         if (!IsSceneInBuildSettings(name))
         {
-            Debug.LogWarning($"[SceneLoader] Scene '{name}' might not be in Build Settings. It may still load in editor but will fail in a build.");
+            Debug.LogWarning($"[SceneLoader] Scene '{name}' mungkin belum ada di Build Settings.");
         }
-        Debug.Log($"[SceneLoader] Loading scene by name: {name}");
+        Debug.Log($"[SceneLoader] Memuat scene dengan nama: {name}");
         SceneManager.LoadScene(name);
     }
 
@@ -88,62 +106,13 @@ public class SceneLoader : MonoBehaviour
     {
         if (index < 0 || index >= SceneManager.sceneCountInBuildSettings)
         {
-            Debug.LogError($"[SceneLoader] Build index {index} is out of range (0 .. {SceneManager.sceneCountInBuildSettings - 1}).");
+            Debug.LogError($"[SceneLoader] Build index {index} di luar jangkauan.");
             return;
         }
-        Debug.Log($"[SceneLoader] Loading scene by build index: {index}");
+        Debug.Log($"[SceneLoader] Memuat scene dengan build index: {index}");
         SceneManager.LoadScene(index);
     }
-    public void LoadAdditive()
-{
-    if (string.IsNullOrEmpty(sceneName))
-    {
-        Debug.LogError("[SceneLoader] sceneName belum di-set di Inspector untuk fungsi LoadAdditive!");
-        return;
-    }
-    Debug.Log($"[SceneLoader] Memuat scene '{sceneName}' secara aditif.");
-    // Perhatikan LoadSceneMode.Additive di sini
-    SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
-}
-
-// Menutup/unload scene yang di-set di Inspector
-/// <summary>
-/// 卸载场景的方法
-/// </summary>
-public void Unload()
-{
-    if (string.IsNullOrEmpty(sceneName))
-    {
-        Debug.LogError("[SceneLoader] sceneName belum di-set di Inspector untuk fungsi Unload!");
-        // 如果场景名称未设置，输出错误日志并返回
-        return;
-    }
-    Debug.Log($"[SceneLoader] Menutup scene '{sceneName}'.");
-    // 记录日志，显示正在关闭的场景名称
-    SceneManager.UnloadSceneAsync(sceneName);
-    // 异步卸载指定场景
-}
-
-    private System.Collections.IEnumerator LoadAsyncCoroutine(string name)
-    {
-        if (!IsSceneInBuildSettings(name))
-            Debug.LogWarning($"[SceneLoader] Scene '{name}' may not be in Build Settings.");
-
-        var op = SceneManager.LoadSceneAsync(name);
-        while (!op.isDone) yield return null;
-    }
-
-    private System.Collections.IEnumerator LoadAsyncCoroutine(int index)
-    {
-        if (index < 0 || index >= SceneManager.sceneCountInBuildSettings)
-        {
-            Debug.LogError($"[SceneLoader] Build index {index} is out of range for async load.");
-            yield break;
-        }
-        var op = SceneManager.LoadSceneAsync(index);
-        while (!op.isDone) yield return null;
-    }
-
+    
     private bool IsSceneInBuildSettings(string name)
     {
         for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
@@ -154,9 +123,11 @@ public void Unload()
         }
         return false;
     }
-
+    
+    // =============================================
+    // KHUSUS EDITOR
+    // =============================================
     #if UNITY_EDITOR
-    // Auto-update sceneName and sceneBuildIndex when you drag a SceneAsset in Inspector
     private void OnValidate()
     {
         if (sceneAsset != null)
@@ -164,7 +135,6 @@ public void Unload()
             string path = AssetDatabase.GetAssetPath(sceneAsset);
             sceneName = System.IO.Path.GetFileNameWithoutExtension(path);
 
-            // update build index if present
             sceneBuildIndex = -1;
             var scenes = EditorBuildSettings.scenes;
             for (int i = 0; i < scenes.Length; i++)
@@ -175,22 +145,6 @@ public void Unload()
                     break;
                 }
             }
-
-            // if scene not in build settings, prompt to add it
-            if (sceneBuildIndex == -1)
-            {
-                if (EditorUtility.DisplayDialog("Add scene to Build Settings?",
-                    $"Scene '{sceneName}' is not in Build Settings. Add it now?", "Yes", "No"))
-                {
-                    var list = new System.Collections.Generic.List<EditorBuildSettingsScene>(EditorBuildSettings.scenes);
-                    list.Add(new EditorBuildSettingsScene(path, true));
-                    EditorBuildSettings.scenes = list.ToArray();
-                    sceneBuildIndex = EditorBuildSettings.scenes.Length - 1;
-                    Debug.Log($"[SceneLoader] Added '{sceneName}' to Build Settings at index {sceneBuildIndex}.");
-                }
-            }
-
-            EditorUtility.SetDirty(this);
         }
     }
     #endif
