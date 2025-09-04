@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
+using UnityEngine.UI;
 
 public class SequenceManager : MonoBehaviour
 {
@@ -14,7 +15,13 @@ public class SequenceManager : MonoBehaviour
     public TMP_Text p2SequenceList;
     public TMP_Text p1Progress;
     public TMP_Text p2Progress;
-    
+    public Transform p1SequenceContainer;
+    public Transform p2SequenceContainer;
+    public GameObject keyIconPrefab;
+    public List<KeySpritePair> keySpritePairs;
+
+    private Dictionary<Key, Sprite> keySpriteMap;
+
     [Header("Visual Feedback")]
     public Color correctColor = Color.green;
     public Color incorrectColor = Color.red;
@@ -22,6 +29,8 @@ public class SequenceManager : MonoBehaviour
     
     private List<Key> p1Sequence;
     private List<Key> p2Sequence;
+    private List<Image> p1Icons;
+    private List<Image> p2Icons;
     private int p1Index;
     private int p2Index;
     private float p1Timer;
@@ -35,8 +44,17 @@ public class SequenceManager : MonoBehaviour
     
    
     public System.Action<int> OnPlayerWinsClash;
-    public System.Action<int> OnPlayerFailsSequence; 
+    public System.Action<int> OnPlayerFailsSequence;
 
+    private void Awake()
+    {
+        keySpriteMap = new Dictionary<Key, Sprite>();
+        foreach (var pair in keySpritePairs)
+        {
+            if (!keySpriteMap.ContainsKey(pair.key))
+                keySpriteMap.Add(pair.key, pair.sprite);
+        }
+    }
     private void Update()
     {
         
@@ -69,7 +87,8 @@ public class SequenceManager : MonoBehaviour
         p1Index = 0;
         p1Timer = inputTimeLimit;
         p1Active = true;
-        
+
+        DisplaySequence(p1Sequence, p1SequenceContainer, ref p1Icons);
         UpdateSequenceDisplay(1);
         Debug.Log("Player 1 sequence: " + string.Join(", ", p1Sequence));
     }
@@ -80,7 +99,8 @@ public class SequenceManager : MonoBehaviour
         p2Index = 0;
         p2Timer = inputTimeLimit;
         p2Active = true;
-        
+
+        DisplaySequence(p2Sequence, p2SequenceContainer, ref p2Icons);
         UpdateSequenceDisplay(2);
         Debug.Log("Player 2 sequence: " + string.Join(", ", p2Sequence));
     }
@@ -89,28 +109,42 @@ public class SequenceManager : MonoBehaviour
     {
         if (playerID == 1 && p1Active)
         {
-            return ProcessPlayerInput(ref p1Index, p1Sequence, key, 1);
+            return ProcessPlayerInput(ref p1Index, p1Sequence, p1Icons, key, 1);
         }
         else if (playerID == 2 && p2Active)
         {
-            return ProcessPlayerInput(ref p2Index, p2Sequence, key, 2);
+            return ProcessPlayerInput(ref p2Index, p2Sequence, p2Icons, key, 2);
         }
         
         return false;
     }
-    
-    private bool ProcessPlayerInput(ref int index, List<Key> sequence, Key inputKey, int playerID)
+
+    private bool ProcessPlayerInput(ref int index, List<Key> sequence, List<Image> icons, Key inputKey, int playerID)
     {
         if (index >= sequence.Count) return false;
-        
+
+        if (index == 0 && inputKey != sequence[0])
+        {
+        Debug.Log($"Player {playerID} pressed {inputKey}, waiting for {sequence[0]} to start sequence...");
+        return false;
+        }
+
         if (inputKey == sequence[index])
         {
-            index++;
             Debug.Log($"Player {playerID} correct input: {inputKey} ({index}/{sequence.Count})");
             
             UpdateProgressDisplay(playerID, index, sequence.Count);
-            
-            
+
+            icons[index].color = correctColor;
+            index++;
+            if (index >= sequence.Count)
+            {
+                Debug.Log($"Player {playerID} menang clash!");
+                if (playerID == 1) p1Active = false;
+                else p2Active = false;
+                return true;
+            }
+
             if (index >= sequence.Count)
             {
                 Debug.Log($"Player {playerID} wins the clash!");
@@ -124,12 +158,39 @@ public class SequenceManager : MonoBehaviour
         else
         {
             Debug.Log($"Player {playerID} incorrect input: {inputKey} (expected: {sequence[index]})");
-            
+            icons[index].color = incorrectColor;
         }
         
         return false;
     }
-    
+
+    private void DisplaySequence(List<Key> sequence, Transform container, ref List<Image> iconList)
+    {
+        foreach (Transform child in container)
+            Destroy(child.gameObject);
+
+        iconList = new List<Image>();
+
+        foreach (Key k in sequence)
+        {
+            GameObject iconGO = Instantiate(keyIconPrefab, container);
+            Image img = iconGO.GetComponent<Image>();
+
+            if (keySpriteMap.TryGetValue(k, out Sprite sp))
+            {
+                img.sprite = sp;
+                img.color = pendingColor;
+                img.enabled = true;
+            }
+            else
+            {
+                img.enabled = false;
+            }
+
+            img.color = pendingColor; 
+            iconList.Add(img);
+        }
+    }
     private List<Key> GenerateRandomSequence(Key[] keyPool, int length)
     {
         List<Key> sequence = new List<Key>();
@@ -176,6 +237,22 @@ public class SequenceManager : MonoBehaviour
         if (p2SequenceList != null) p2SequenceList.text = "";
         if (p1Progress != null) p1Progress.text = "";
         if (p2Progress != null) p2Progress.text = "";
+
+        if (p1SequenceContainer != null)
+        {
+            foreach (Transform child in p1SequenceContainer)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+
+        if (p2SequenceContainer != null)
+        {
+            foreach (Transform child in p2SequenceContainer)
+            {
+                Destroy(child.gameObject);
+            }
+        }
     }
     
    
@@ -188,4 +265,11 @@ public class SequenceManager : MonoBehaviour
     {
         return playerID == 1 ? p1Timer : p2Timer;
     }
+}
+
+[System.Serializable]
+public class KeySpritePair
+{
+    public Key key;
+    public Sprite sprite;
 }
