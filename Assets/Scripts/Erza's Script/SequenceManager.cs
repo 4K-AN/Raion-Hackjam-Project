@@ -146,22 +146,22 @@ public class SequenceManager : MonoBehaviour
     }
     
     private void DisplaySequenceIcons(List<Key> sequence, Transform container, ref List<Image> iconList)
-    {
-        foreach (Transform child in container) Destroy(child.gameObject);
-        if(iconList != null) iconList.Clear(); else iconList = new List<Image>();s
-
-        foreach (Key k in sequence)
-        {
-            GameObject iconGO = Instantiate(keyIconPrefab, container);
-            Image img = iconGO.GetComponent<Image>();
-            if (keySpriteMap.TryGetValue(k, out Sprite sp))
 {
-    img.sprite = sp; // <-- TAMBAHKAN TITIK KOMA DI SINI
-    img.color = pendingColor;
-}
-            iconList.Add(img);
+    foreach (Transform child in container) Destroy(child.gameObject);
+    if(iconList != null) iconList.Clear(); else iconList = new List<Image>();
+
+    foreach (Key k in sequence)
+    {
+        GameObject iconGO = Instantiate(keyIconPrefab, container);
+        Image img = iconGO.GetComponent<Image>();
+        if (keySpriteMap.TryGetValue(k, out Sprite sp))
+        {
+            img.sprite = sp;
+            img.color = pendingColor;
         }
+        iconList.Add(img);
     }
+}
 
     public void ClearSequences()
     {
