@@ -8,53 +8,55 @@ using System;
 
 public class GameManager : MonoBehaviour
 {
-    // State machine untuk mengatur alur permainan
+    // State machine untuk mengatur setiap tahapan permainan
     public enum GameState
     {
-        Intro,
-        WaitingForReady,
-        HighNoonWait,
-        Clash,
+        Intro,              // Tahap 1, 2
+        WaitingForReady,    // Tahap 3
+        HighNoonWait,       // Tahap 4
+        Clash,              // Tahap 5
         RoundOver,
-        WaitForContinue,
-        GameOver
+        WaitForContinue,          // Tahap 6, 7, 8
+        GameOver            // Tahap 9
     }
     private GameState currentState;
 
-    [Header("Game Settings")]
+    [Header("Pengaturan Permainan")]
     public int startingLives = 3;
     public float minHighNoonDelay = 2f;
     public float maxHighNoonDelay = 5f;
 
-    [Header("UI Elements")]
-    public TMP_Text stateText;
-    public TMP_Text p1Health;
-    public TMP_Text p2Health;
-    public TMP_Text p1ButtonHelp; // Sekarang tidak dipakai, tapi disimpan jika perlu
-    public TMP_Text p2ButtonHelp; // Sekarang tidak dipakai, tapi disimpan jika perlu
-    public GameObject gameOverPanel;
-    public GameObject replayButton; // Tombol untuk replay
-
-    [Header("Managers & Cutscenes")]
+    [Header("Referensi Manager")]
     public CutsceneManager cutsceneManager;
     public SequenceManager sequenceManager;
+    
+    [Header("UI Elemen")]
+    public TMP_Text stateText; // Teks untuk menampilkan status (GET READY, HIGH NOON, dll)
+    public GameObject[] p1HeartSprites; // 3 Sprite hati untuk Player 1
+    public GameObject[] p2HeartSprites; // 3 Sprite hati untuk Player 2
+    public GameObject gameOverPanel;
+    public GameObject replayButton;
 
+    // ============== KOLEKSI VIDEO DAN GAMBAR (URUTAN 1-9) ==============
     [Header("Visuals - Videos")]
-    public VideoClip playerMeetClip;
-    public VideoClip faceOffClip;
-    public VideoClip earlyShotClip;
-    public VideoClip p1WinClip;
-    public VideoClip p2WinClip;
-    public VideoClip sequenceFailClip;
-    public VideoClip gameOverClip;
+    public VideoClip playerMeetClip;       // Video 1: Player bertemu
+    public VideoClip faceOffClip;          // Video 2: Kedua karakter face off
+    public VideoClip p1WinsRoundClip;      // Video 6: Player 1 menembak
+    public VideoClip p2WinsRoundClip;      // Video 6: Player 2 menembak
+    public VideoClip p1GetsHitClip;        // Video 7: Player 1 tertembak
+    public VideoClip p2GetsHitClip;        // Video 7: Player 2 tertembak
+    public VideoClip p1WinsGameClip;       // Video 8: Player 1 menang game
+    public VideoClip p2WinsGameClip;       // Video 8: Player 2 menang game
+    public VideoClip earlyShotClip;        // Video jika ada yang menembak terlalu cepat
+    public VideoClip sequenceFailClip;     // Video jika ada yang gagal sequence
 
     [Header("Visuals - Sprites")]
-    public Sprite readyPromptSprite; // Gambar 3
-    public Sprite highNoonWaitSprite; // Gambar 4
-    public Sprite highNoonShootSprite; // Gambar 5
-    public Sprite continuePromptSprite;
+    public Sprite readyPromptSprite;    // Gambar 3: Press Q and P to Ready
+    public Sprite highNoonWaitSprite;   // Gambar 4: High Noon (menunggu)
+    public Sprite highNoonShootSprite;  // Gambar 5: High Noon (mekanik tembak)
+    public Sprite continuePromptSprite; // Gambar untuk prompt lanjut ke ronde berikutnya
 
-    // Variabel internal
+    // Variabel internal untuk melacak status permainan
     private int p1Lives;
     private int p2Lives;
     private bool p1Ready;
@@ -62,16 +64,17 @@ public class GameManager : MonoBehaviour
     private bool bellRang;
     private bool roundActive;
 
-    // --- FUNGSI UTAMA UNITY ---
-
+    #region Unity Lifecycle Functions
     private void Awake()
     {
+        // Otomatis mencari manager lain jika belum di-assign
         if (sequenceManager == null) sequenceManager = FindObjectOfType<SequenceManager>();
         if (cutsceneManager == null) cutsceneManager = FindObjectOfType<CutsceneManager>();
     }
 
     private void OnEnable()
     {
+        // Berlangganan event dari skrip input dan sequence manager
         QuickDrawInput.OnReady += HandleReady;
         QuickDrawInput.OnShoot += HandleShoot;
         QuickDrawInput.OnSequence += HandleSequence;
@@ -85,6 +88,7 @@ public class GameManager : MonoBehaviour
 
     private void OnDisable()
     {
+        // Berhenti berlangganan event untuk menghindari error
         QuickDrawInput.OnReady -= HandleReady;
         QuickDrawInput.OnShoot -= HandleShoot;
         QuickDrawInput.OnSequence -= HandleSequence;
@@ -98,34 +102,25 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        // Inisialisasi permainan
         p1Lives = startingLives;
         p2Lives = startingLives;
         UpdateHealthUI();
         if(replayButton != null) replayButton.SetActive(false);
-        ChangeState(GameState.Intro); // Memulai permainan dari Intro
+        if(gameOverPanel != null) gameOverPanel.SetActive(false);
+        
+        // Memulai permainan dari state Intro
+        ChangeState(GameState.Intro);
     }
+    #endregion
 
-    private void Update()
-    {
-        // Hanya state yang membutuhkan input keyboard berkelanjutan yang ditaruh di sini
-        if (currentState == GameState.WaitForContinue)
-        {
-            if (Input.GetKeyDown(KeyCode.Q) && Input.GetKeyDown(KeyCode.P))
-            {
-                if (!CheckGameOver())
-                {
-                    ResetRound();
-                }
-            }
-        }
-    }
-
-    // --- PENGATUR STATE MACHINE ---
-
+    #region State Machine
+    // Fungsi pusat untuk mengubah tahapan permainan
     private void ChangeState(GameState newState)
     {
         currentState = newState;
         Debug.Log("Game State changed to: " + newState);
+        stateText.text = ""; // Reset teks status setiap ganti state
 
         switch (currentState)
         {
@@ -134,61 +129,59 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.WaitingForReady:
                 cutsceneManager.PlaySingleImage(readyPromptSprite, 999f);
-                stateText.text = "PRESS Q AND P TO READY";
+                stateText.text = "TEKAN TOMBOL READY";
                 break;
             case GameState.HighNoonWait:
                 StartCoroutine(HighNoonCountdown());
                 break;
             case GameState.Clash:
                 cutsceneManager.PlaySingleImage(highNoonShootSprite, 999f);
-                sequenceManager.StartClashP1(); // Disederhanakan, bisa juga StartClash()
+                sequenceManager.StartClashP1();
                 sequenceManager.StartClashP2();
-                stateText.text = "SEQUENCE!";
+                stateText.text = "SELESAIKAN URUTAN!";
                 break;
             case GameState.WaitForContinue:
                 cutsceneManager.PlaySingleImage(continuePromptSprite, 999f);
-                stateText.text = "Press Q and P to continue";
+                stateText.text = "Tekan Q dan P untuk Lanjut";
                 break;
             case GameState.GameOver:
-                VideoClip finalClip = (p1Lives > 0) ? p1WinClip : p2WinClip; // Menggunakan p1/p2WinClip sebagai contoh
+                VideoClip finalClip = (p1Lives > 0) ? p1WinsGameClip : p2WinsGameClip;
                 StartCoroutine(PlayCutsceneAndThen(finalClip, () => {
+                    if (gameOverPanel != null) gameOverPanel.SetActive(true);
                     if (replayButton != null) replayButton.SetActive(true);
                 }));
                 break;
         }
     }
-    
-    // --- ALUR PERMAINAN (COROUTINES) ---
+    #endregion
 
+    #region Game Flow Coroutines
+    // Urutan #1 & #2: Memutar video intro
     private IEnumerator IntroSequence()
     {
-        stateText.text = "";
         bool videoDone = false;
         Action onVideoFinish = () => videoDone = true;
 
-        // Langkah 1: Video Player Bertemu
         cutsceneManager.OnCutsceneFinished += onVideoFinish;
         cutsceneManager.PlaySingleClip(playerMeetClip);
         yield return new WaitUntil(() => videoDone);
         cutsceneManager.OnCutsceneFinished -= onVideoFinish;
 
-        // Langkah 2: Video Face Off
         videoDone = false;
         cutsceneManager.OnCutsceneFinished += onVideoFinish;
         cutsceneManager.PlaySingleClip(faceOffClip);
         yield return new WaitUntil(() => videoDone);
         cutsceneManager.OnCutsceneFinished -= onVideoFinish;
 
-        // Langkah 3: Lanjut ke state berikutnya
         ChangeState(GameState.WaitingForReady);
     }
 
+    // Urutan #4: Menunggu dengan waktu acak
     private IEnumerator HighNoonCountdown()
     {
         roundActive = true;
         bellRang = false;
         
-        // Langkah 4: Gambar High Noon Wait
         stateText.text = "GET READY...";
         bool imageDone = false;
         Action onImageFinish = () => imageDone = true;
@@ -199,13 +192,16 @@ public class GameManager : MonoBehaviour
         yield return new WaitUntil(() => imageDone);
         cutsceneManager.OnCutsceneFinished -= onImageFinish;
 
-        // Langkah 5: Waktunya Duel (Clash)
+        // Mainkan suara bel di sini jika ada
         bellRang = true;
+        
+        // Urutan #5: Memulai duel
         ChangeState(GameState.Clash);
     }
+    #endregion
 
-    // --- PENGELOLA INPUT (EVENT HANDLERS) ---
-
+    #region Input Event Handlers
+    // Urutan #3: Menangani input ready dari pemain
     private void HandleReady(int playerID)
     {
         if (currentState != GameState.WaitingForReady) return;
@@ -219,23 +215,20 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // Menangani penalti jika menembak terlalu cepat
     private void HandleShoot(int playerID)
     {
-        // Logika menembak (Clash) sekarang diatur oleh SequenceManager
-        // Namun, kita tetap butuh ini untuk penalti menembak terlalu cepat
-        if (!roundActive) return;
+        if (!roundActive || bellRang) return;
 
-        if (!bellRang)
-        {
-            if (playerID == 1) p1Lives--; else p2Lives--;
-            UpdateHealthUI();
-            stateText.text = $"Player {playerID} shot too early! (-1 life)";
-            StartCoroutine(PlayCutsceneAndThen(earlyShotClip, () => {
-                if (!CheckGameOver()) ResetRound();
-            }));
-        }
+        if (playerID == 1) p1Lives--; else p2Lives--;
+        UpdateHealthUI();
+        stateText.text = $"Player {playerID} menembak terlalu cepat! (-1 nyawa)";
+        StartCoroutine(PlayCutsceneAndThen(earlyShotClip, () => {
+            if (!CheckGameOver()) ResetRound();
+        }));
     }
 
+    // Urutan #5: Meneruskan input sequence ke SequenceManager
     private bool HandleSequence(int playerID, Key key)
     {
         if (currentState == GameState.Clash)
@@ -244,58 +237,78 @@ public class GameManager : MonoBehaviour
         }
         return false;
     }
+    #endregion
 
+    #region Round & Game Logic
+    // Urutan #6, #7, #8: Menangani pemenang ronde
     private void HandleClashWin(int winnerID)
     {
         if (currentState != GameState.Clash) return;
         
-        currentState = GameState.RoundOver; // Tandai ronde selesai
-        VideoClip winClip = null;
-
-        if (winnerID == 1)
-        {
-            p2Lives--;
-            winClip = p1WinClip; // Video 6/7
-        }
-        else if (winnerID == 2)
-        {
-            p1Lives--;
-            winClip = p2WinClip; // Video 6/7
-        }
-
-        UpdateHealthUI();
-        StartCoroutine(PlayCutsceneAndThen(winClip, () => {
-             // Langkah 8: Setelah video, tunggu input Q & P
-            if (!CheckGameOver())
-            {
-                ChangeState(GameState.WaitForContinue);
-            }
-        }));
+        currentState = GameState.RoundOver;
+        StartCoroutine(RoundOverSequence(winnerID, true));
     }
 
     private void HandleSequenceFailure(int playerID)
     {
        if (currentState != GameState.Clash) return;
-
-        currentState = GameState.RoundOver;
-        if (playerID == 1) p1Lives--; else p2Lives--;
-        UpdateHealthUI();
-
-        StartCoroutine(PlayCutsceneAndThen(sequenceFailClip, () => {
-            if (!CheckGameOver())
-            {
-                ChangeState(GameState.WaitForContinue);
-            }
-        }));
+       
+       currentState = GameState.RoundOver;
+       int winnerID = (playerID == 1) ? 2 : 1; // Pemenangnya adalah lawan
+       StartCoroutine(RoundOverSequence(winnerID, false));
     }
 
-    // --- FUNGSI BANTUAN ---
+    private IEnumerator RoundOverSequence(int winnerID, bool isClashWin)
+    {
+        VideoClip winnerClip, loserClip;
+
+        if (winnerID == 1)
+        {
+            p2Lives--;
+            winnerClip = isClashWin ? p1WinsRoundClip : sequenceFailClip;
+            loserClip = p2GetsHitClip;
+        }
+        else // winnerID == 2
+        {
+            p1Lives--;
+            winnerClip = isClashWin ? p2WinsRoundClip : sequenceFailClip;
+            loserClip = p1GetsHitClip;
+        }
+        
+        UpdateHealthUI();
+
+        // Putar video pemenang menembak
+        bool videoDone = false;
+        Action onVideoFinish = () => videoDone = true;
+        cutsceneManager.OnCutsceneFinished += onVideoFinish;
+        cutsceneManager.PlaySingleClip(winnerClip);
+        yield return new WaitUntil(() => videoDone);
+        cutsceneManager.OnCutsceneFinished -= onVideoFinish;
+
+        // Putar video yang kalah tertembak
+        videoDone = false;
+        cutsceneManager.OnCutsceneFinished += onVideoFinish;
+        cutsceneManager.PlaySingleClip(loserClip);
+        yield return new WaitUntil(() => videoDone);
+        cutsceneManager.OnCutsceneFinished -= onVideoFinish;
+        
+        // Cek Game Over atau lanjut ke ronde berikutnya
+        if (!CheckGameOver())
+        {
+            ChangeState(GameState.WaitForContinue);
+        }
+    }
 
     private void UpdateHealthUI()
     {
-        // Ganti ini dengan logika sprite hati Anda
-        if (p1Health != null) p1Health.text = $"Health: {p1Lives}";
-        if (p2Health != null) p2Health.text = $"Health: {p2Lives}";
+        for(int i = 0; i < p1HeartSprites.Length; i++)
+        {
+            p1HeartSprites[i].SetActive(i < p1Lives);
+        }
+        for(int i = 0; i < p2HeartSprites.Length; i++)
+        {
+            p2HeartSprites[i].SetActive(i < p2Lives);
+        }
     }
 
     private void ResetRound()
@@ -304,9 +317,10 @@ public class GameManager : MonoBehaviour
         roundActive = false;
         bellRang = false;
         sequenceManager.ClearSequences();
-        ChangeState(GameState.HighNoonWait); // Kembali ke hitung mundur untuk ronde baru
+        ChangeState(GameState.HighNoonWait);
     }
 
+    // Urutan #9: Menangani akhir permainan
     private bool CheckGameOver()
     {
         if (p1Lives <= 0 || p2Lives <= 0)
@@ -317,6 +331,13 @@ public class GameManager : MonoBehaviour
         return false;
     }
     
+    // Urutan #10: Fungsi untuk tombol Replay
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    // Fungsi bantuan untuk memutar cutscene
     private IEnumerator PlayCutsceneAndThen(VideoClip clip, Action after)
     {
         if (cutsceneManager == null || clip == null)
@@ -332,10 +353,5 @@ public class GameManager : MonoBehaviour
         cutsceneManager.OnCutsceneFinished -= onFinish;
         after?.Invoke();
     }
-    
-    public void RestartGame()
-    {
-        // Langkah 10: Tombol Replay
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
+    #endregion
 }
