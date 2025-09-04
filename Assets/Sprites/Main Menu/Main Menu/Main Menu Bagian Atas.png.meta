@@ -240,19 +240,6 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -1347,56 +1334,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      Main Menu Bagian Atas_0: 7169510560082238099
-      Main Menu Bagian Atas_1: 1532126640304950462
-      Main Menu Bagian Atas_10: 1705700378162084246
-      Main Menu Bagian Atas_11: -603061759947028395
-      Main Menu Bagian Atas_12: -646914616457097615
-      Main Menu Bagian Atas_13: -111468116279754603
-      Main Menu Bagian Atas_14: -3477140080771312625
-      Main Menu Bagian Atas_15: -4252307642797047248
-      Main Menu Bagian Atas_16: 6488841487794468530
-      Main Menu Bagian Atas_17: -2792717547642041022
-      Main Menu Bagian Atas_18: -7976567624668495574
-      Main Menu Bagian Atas_19: -777603817149663942
-      Main Menu Bagian Atas_2: 2588771957245781100
-      Main Menu Bagian Atas_20: -882089150756284067
-      Main Menu Bagian Atas_21: -417895465400692850
-      Main Menu Bagian Atas_22: -4222779217028827799
-      Main Menu Bagian Atas_23: 1815765749183824982
-      Main Menu Bagian Atas_24: -4942176410669462575
-      Main Menu Bagian Atas_25: -358051039751309328
-      Main Menu Bagian Atas_26: 1569232095540962612
-      Main Menu Bagian Atas_27: 7439089690352319637
-      Main Menu Bagian Atas_28: 2617853006779349746
-      Main Menu Bagian Atas_29: -8112082010548369296
-      Main Menu Bagian Atas_3: 2840039049646701747
-      Main Menu Bagian Atas_30: 294622468156701215
-      Main Menu Bagian Atas_31: -5680636266311038825
-      Main Menu Bagian Atas_32: -4035630158944768218
-      Main Menu Bagian Atas_33: -3305578551373923703
-      Main Menu Bagian Atas_34: 6425568223907706048
-      Main Menu Bagian Atas_35: -3052806223566892357
-      Main Menu Bagian Atas_36: 678280410512950467
-      Main Menu Bagian Atas_37: 2141237461765105283
-      Main Menu Bagian Atas_38: 4523490765530289809
-      Main Menu Bagian Atas_39: 6925537769175185155
-      Main Menu Bagian Atas_4: 924158718806248828
-      Main Menu Bagian Atas_40: 6121153950022668354
-      Main Menu Bagian Atas_41: -5445130643967555807
-      Main Menu Bagian Atas_42: -1588185547175858071
-      Main Menu Bagian Atas_43: -713953317843111622
-      Main Menu Bagian Atas_44: 1283791638746231485
-      Main Menu Bagian Atas_45: -2598917087444346719
-      Main Menu Bagian Atas_46: -786757364231369510
-      Main Menu Bagian Atas_47: 2814742795535585590
-      Main Menu Bagian Atas_48: -7792290617211506476
-      Main Menu Bagian Atas_5: -2567059353704201286
-      Main Menu Bagian Atas_6: -3897606729356852347
-      Main Menu Bagian Atas_7: 7010102670706298856
-      Main Menu Bagian Atas_8: 3195566782327319500
-      Main Menu Bagian Atas_9: 2567898972471039607
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
