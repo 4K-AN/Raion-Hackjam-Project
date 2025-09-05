@@ -166,7 +166,8 @@ public class GameManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.P)) DebugLog("P key detected in GameManager");
         }
 
-        if (currentState == GameState.Intro || currentState == GameState.GameOver || currentState == GameState.WaitingForReady)
+        if (currentState == GameState.Intro || currentState == GameState.GameOver || currentState == GameState.WaitingForReady 
+            || currentState == GameState.RoundOver)
         {
                 healthUIPanel.SetActive(false);
                 sequenceUIPanel.SetActive(false); // Pastikan panel sequence juga disembunyikan
