@@ -124,7 +124,7 @@ public class GameManager : MonoBehaviour
         UpdateHealthUI();
         if(replayButton != null) replayButton.SetActive(false);
         if(gameOverPanel != null) gameOverPanel.SetActive(false);
-        if(sequenceUIPanel != null) sequenceUIPanel.SetActive(false);
+         // if(sequenceUIPanel != null) sequenceUIPanel.SetActive(false); //
         if(pauseMenu != null) pauseMenu.SetActive(false);
         
         // Memulai permainan dari state Intro
@@ -495,6 +495,7 @@ public class GameManager : MonoBehaviour
             ChangeState(GameState.WaitForContinue);
         }
     }
+
 
     
 
