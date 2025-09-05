@@ -418,65 +418,98 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Input Event Handlers
-    private void HandleReady(int playerID)
+private void HandleReady(int playerID)
+{
+    if (currentState != GameState.WaitingForReady) return;
+
+    DebugLog($"Player {playerID} ready");
+    
+    if (playerID == 1) p1Ready = true;
+    else if (playerID == 2) p2Ready = true;
+
+    // HARUS KEDUA PLAYER READY BERSAMAAN
+    if (p1Ready && p2Ready)
     {
-        if (currentState != GameState.WaitingForReady) return;
-
-        DebugLog($"Player {playerID} ready");
-        
-        if (playerID == 1) p1Ready = true;
-        else if (playerID == 2) p2Ready = true;
-
-        // HARUS KEDUA PLAYER READY BERSAMAAN
-        if (p1Ready && p2Ready)
-        {
-            DebugLog("Both players ready simultaneously - starting high noon");
-            ChangeState(GameState.HighNoonWait);
-        }
+        DebugLog("Both players ready simultaneously - starting high noon");
+        ChangeState(GameState.HighNoonWait);
     }
+}
 
-    private void HandleShoot(int playerID)
+private void HandleShoot(int playerID)
+{
+    // HANYA penalti jika menembak sebelum bell (saat HighNoonWait)
+    if (currentState == GameState.HighNoonWait && !bellRang)
     {
-        // HANYA penalti jika menembak sebelum bell (saat HighNoonWait)
-        if (currentState == GameState.HighNoonWait && !bellRang)
-        {
-            DebugLog($"Player {playerID} shot too early during countdown!");
-            
-            if (playerID == 1) p1Lives--; 
-            else p2Lives--;
-            
-            UpdateHealthUI();
-            
-            if (stateText != null) stateText.text = $"Player {playerID} menembak terlalu cepat! (-1 nyawa)";
-            
-            currentGameFlowCoroutine = StartCoroutine(HandleEarlyShotPenalty(playerID));
-        }
-    }
-
-    private IEnumerator HandleEarlyShotPenalty(int playerID)
-    {
-        roundActive = false;
+        DebugLog($"Player {playerID} shot too early during countdown!");
         
-        if (earlyShotClip != null)
+        if (playerID == 1) p1Lives--; 
+        else p2Lives--;
+        
+        UpdateHealthUI();
+        
+        if (stateText != null) stateText.text = $"Player {playerID} menembak terlalu cepat! (-1 nyawa)";
+        
+        // Stop current coroutine dan mulai penalty sequence
+        if (currentGameFlowCoroutine != null)
         {
-            yield return StartCoroutine(PlayVideoAndWait(earlyShotClip));
+            StopCoroutine(currentGameFlowCoroutine);
+            currentGameFlowCoroutine = null;
         }
         
-        if (!CheckGameOver())
-        {
-            ResetRound();
-        }
+        // Ubah state untuk menghindari input lain
+        currentState = GameState.RoundOver;
+        currentGameFlowCoroutine = StartCoroutine(HandleEarlyShotPenalty(playerID));
     }
+}
 
-    private bool HandleSequence(int playerID, Key key)
+private IEnumerator HandleEarlyShotPenalty(int playerID)
+{
+    roundActive = false;
+    DebugLog($"Starting early shot penalty sequence for Player {playerID}");
+    
+    // 1. Putar video penalty dulu (jika ada)
+    if (earlyShotClip != null)
     {
-        if (currentState == GameState.Clash && sequenceManager != null)
-        {
-            return sequenceManager.ProcessInput(playerID, key);
-        }
-        return false;
+        DebugLog("Playing early shot penalty video");
+        yield return StartCoroutine(PlayVideoAndWait(earlyShotClip));
     }
-    #endregion
+    else
+    {
+        // Jika tidak ada video penalty, tunggu sebentar untuk menunjukkan pesan
+        yield return new WaitForSeconds(2f);
+    }
+    
+    // 2. Cek apakah game sudah berakhir setelah penalty
+    if (CheckGameOver())
+    {
+        // Jika game over, fungsi CheckGameOver() sudah mengubah state ke GameOver
+        DebugLog("Game over after early shot penalty");
+        yield break;
+    }
+    
+    // 3. Jika game belum berakhir, putar Face Off video lagi
+    DebugLog("Playing Face Off video after penalty - resetting round");
+    
+    if (faceOffClip != null)
+    {
+        yield return StartCoroutine(PlayVideoAndWait(faceOffClip));
+    }
+    
+    // 4. Setelah Face Off selesai, reset round dan kembali ke ready wait
+    DebugLog("Face Off completed after penalty, resetting round");
+    ResetRound();
+}
+
+private bool HandleSequence(int playerID, Key key)
+{
+    if (currentState == GameState.Clash && sequenceManager != null)
+    {
+        return sequenceManager.ProcessInput(playerID, key);
+    }
+    return false;
+}
+
+#endregion
 
     #region Round & Game Logic
     private void HandleClashWin(int winnerID)
