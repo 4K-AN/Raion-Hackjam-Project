@@ -2619,12 +2619,12 @@ MonoBehaviour:
   readyPromptSprite: {fileID: -8856537257374339974, guid: 749978e33cad1ed45a1687e4c56e57cb, type: 3}
   highNoonWaitSprite: {fileID: -1918665799226547777, guid: 134e2a1b186a1e749a70c4ebd8674dac, type: 3}
   highNoonShootSprite: {fileID: -6470460504253458178, guid: 974be906766b2b44d9fc5c478d258542, type: 3}
-  p1WinsRoundClip: {fileID: 32900000, guid: bb546bec404590e4b9bce0b9205e2e80, type: 3}
-  p2WinsRoundClip: {fileID: 32900000, guid: 8961753479d451d4490ede5372d61efc, type: 3}
+  p1WinsRoundClip: {fileID: 32900000, guid: 11c98eadae568474daea9924e266647a, type: 3}
+  p2WinsRoundClip: {fileID: 32900000, guid: 963f316bc86288248854fa5408dae13c, type: 3}
   p1WinsGameClip: {fileID: 32900000, guid: 2e77960c6655b994d9815b01807bb3a9, type: 3}
   p2WinsGameClip: {fileID: 32900000, guid: 9e070e25eea9e9c46aeccffc1863b5e4, type: 3}
   earlyShotClip: {fileID: 32900000, guid: 76d94381f9da4f544a083ba8ec593d1e, type: 3}
-  sequenceFailClip: {fileID: 32900000, guid: 9563e2b5357e6c04d8c16f2746f594c8, type: 3}
+  sequenceFailClip: {fileID: 32900000, guid: 5b8dab4805108fb41918e8ad01f90d7d, type: 3}
   bellClip: {fileID: 8300000, guid: 0f60a04019ad0e844ad00e075896a9ee, type: 3}
 --- !u!4 &1018109873
 Transform:
