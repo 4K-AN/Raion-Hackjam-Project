@@ -2898,7 +2898,7 @@ MonoBehaviour:
   sequenceUIPanel: {fileID: 656638886}
   pauseMenu: {fileID: 903127623}
   enableDebugLogs: 1
-  playerMeetClip: {fileID: 32900000, guid: 7b49f7f9a6cd70d40a16706f8b42a925, type: 3}
+  playerMeetClip: {fileID: 32900000, guid: 38cdfa6fc844b4d4c806ffa41f201074, type: 3}
   faceOffClip: {fileID: 32900000, guid: 920a662c7688a6740838cb4e63ef80da, type: 3}
   readyPromptSprite: {fileID: 4100129014753480916, guid: b272ece31cd3a36459dc2053714f68a5, type: 3}
   highNoonWaitSprite: {fileID: -1918665799226547777, guid: 134e2a1b186a1e749a70c4ebd8674dac, type: 3}
@@ -2909,6 +2909,7 @@ MonoBehaviour:
   p2WinsGameClip: {fileID: 32900000, guid: 9e070e25eea9e9c46aeccffc1863b5e4, type: 3}
   earlyShotClip: {fileID: 32900000, guid: 1c003380373568043a54a970f68038a6, type: 3}
   sequenceFailClip: {fileID: 32900000, guid: 9563e2b5357e6c04d8c16f2746f594c8, type: 3}
+  bellClip: {fileID: 0}
 --- !u!4 &1018109873
 Transform:
   m_ObjectHideFlags: 0
