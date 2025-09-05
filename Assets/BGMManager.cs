@@ -38,26 +38,29 @@ public class BGMController : MonoBehaviour
     }
 
     // Fungsi yang berjalan setiap pindah scene
-void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-{
-    if (scenesToKeepMusic.Contains(scene.name))
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        return;
+        if (scenesToKeepMusic.Contains(scene.name))
+        {
+            return;
+        }
+        
+        if (scene.name == mainMenuSceneName)
+        {
+            if (audioSource.clip != mainMenuMusic || !audioSource.isPlaying)
+            {
+                PlayMusic(mainMenuMusic);
+            }
+        }
+        else if (scene.name == gameplaySceneName)
+        {
+            StopMusic();
+        }
+        else
+        {
+            StopMusic();
+        }
     }
-
-    if (scene.name == mainMenuSceneName)
-    {
-        PlayMusic(mainMenuMusic); // selalu play ulang
-    }
-    else if (scene.name == gameplaySceneName)
-    {
-        StopMusic();
-    }
-    else
-    {
-        StopMusic();
-    }
-}
 
     // Fungsi untuk memainkan musik
     public void PlayMusic(AudioClip clipToPlay)
