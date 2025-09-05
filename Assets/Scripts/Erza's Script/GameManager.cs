@@ -61,6 +61,11 @@ public class GameManager : MonoBehaviour
     public VideoClip earlyShotClip;        // Video jika menembak terlalu cepat
     public VideoClip sequenceFailClip;     // Video jika gagal sequence/timeout
 
+    [Header("Audio")]
+    public AudioClip bellClip;
+    private AudioSource audioSource;
+
+
     // Variabel internal
     private int p1Lives;
     private int p2Lives;
@@ -77,6 +82,10 @@ public class GameManager : MonoBehaviour
         if (sequenceManager == null) sequenceManager = FindObjectOfType<SequenceManager>();
         if (cutsceneManager == null) cutsceneManager = FindObjectOfType<CutsceneManager>();
         DebugLog("GameManager initialized");
+         audioSource = GetComponent<AudioSource>();
+    if (audioSource == null) audioSource = gameObject.AddComponent<AudioSource>();
+
+    DebugLog("GameManager initialized");
     }
 
     private void OnEnable()
@@ -124,7 +133,7 @@ public class GameManager : MonoBehaviour
         UpdateHealthUI();
         if(replayButton != null) replayButton.SetActive(false);
         if(gameOverPanel != null) gameOverPanel.SetActive(false);
-         // if(sequenceUIPanel != null) sequenceUIPanel.SetActive(false); //
+         // if(sequenceUIPanel != null) sequenceUIPanel.SetActive(false); 
         if(pauseMenu != null) pauseMenu.SetActive(false);
         
         // Memulai permainan dari state Intro
@@ -247,6 +256,12 @@ public class GameManager : MonoBehaviour
             cutsceneManager.PlaySingleImage(highNoonShootSprite, 999f);
             DebugLog("High noon shoot sprite displayed as background");
         }
+
+        if (bellClip != null && audioSource != null)
+{
+    audioSource.PlayOneShot(bellClip);
+    DebugLog("Bell sound played at High Noon Shoot");
+}
 
         // 3. MULAI SequenceManager
         if (sequenceManager != null)
