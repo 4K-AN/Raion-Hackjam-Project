@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
     public TMP_Text stateText;
     public GameObject[] p1HeartSprites; // 3 Sprite hati untuk Player 1
     public GameObject[] p2HeartSprites; // 3 Sprite hati untuk Player 2
+    public GameObject healthUIPanel; // Panel yang berisi health UI
     public GameObject gameOverPanel;
     public GameObject replayButton;
     public GameObject sequenceUIPanel; // Panel yang berisi sequence containers
@@ -79,6 +80,7 @@ public class GameManager : MonoBehaviour
     #region Unity Lifecycle Functions
     private void Awake()
     {
+        sequenceUIPanel.SetActive(false);
         if (sequenceManager == null) sequenceManager = FindObjectOfType<SequenceManager>();
         if (cutsceneManager == null) cutsceneManager = FindObjectOfType<CutsceneManager>();
         DebugLog("GameManager initialized");
@@ -133,11 +135,12 @@ public class GameManager : MonoBehaviour
         UpdateHealthUI();
         if(replayButton != null) replayButton.SetActive(false);
         if(gameOverPanel != null) gameOverPanel.SetActive(false);
-         // if(sequenceUIPanel != null) sequenceUIPanel.SetActive(false); 
+        if(sequenceUIPanel != null) sequenceUIPanel.SetActive(false); 
         if(pauseMenu != null) pauseMenu.SetActive(false);
         
         // Memulai permainan dari state Intro
         ChangeState(GameState.Intro);
+        sequenceUIPanel.SetActive(false); // Pastikan panel sequence disembunyikan di awal
     }
     
     void Update()
@@ -161,6 +164,21 @@ public class GameManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Q)) DebugLog("Q key detected in GameManager");
             if (Input.GetKeyDown(KeyCode.P)) DebugLog("P key detected in GameManager");
+        }
+
+        if (currentState == GameState.Intro || currentState == GameState.GameOver || currentState == GameState.WaitingForReady)
+        {
+                healthUIPanel.SetActive(false);
+                sequenceUIPanel.SetActive(false); // Pastikan panel sequence juga disembunyikan
+                DebugLog("Health UI hidden during Intro/Game Over");
+        }
+        else
+        {
+            if (healthUIPanel != null && !healthUIPanel.activeSelf)
+            {
+                healthUIPanel.SetActive(true);
+                DebugLog("Health UI shown");
+            }
         }
     }
     #endregion
@@ -353,12 +371,13 @@ public class GameManager : MonoBehaviour
         
         if (finalClip != null)
         {
+            if (gameOverPanel != null) gameOverPanel.SetActive(true);
+            if (replayButton != null) replayButton.SetActive(true);
             yield return StartCoroutine(PlayVideoAndWait(finalClip));
         }
         
         // Show game over UI dengan replay button
-        if (gameOverPanel != null) gameOverPanel.SetActive(true);
-        if (replayButton != null) replayButton.SetActive(true);
+        
         
         DebugLog("Game over sequence completed");
     }
@@ -373,9 +392,24 @@ public class GameManager : MonoBehaviour
         
         cutsceneManager.OnCutsceneFinished += onVideoFinish;
         cutsceneManager.PlaySingleClip(clip);
-        
-        yield return new WaitUntil(() => videoDone);
-        
+
+        while (true)
+        {
+            yield return new WaitUntil(() => videoDone);
+            videoDone = false; // reset
+
+            // Kalau state GameOver → loop terus
+            if (currentState == GameState.GameOver)
+            {
+                DebugLog($"[PlayVideoAndWait] Looping video (GameOver): {clip.name}");
+                cutsceneManager.PlaySingleClip(clip);
+            }
+            else
+            {
+                break; // keluar loop kalau bukan GameOver
+            }
+        }
+
         cutsceneManager.OnCutsceneFinished -= onVideoFinish;
         
         DebugLog($"Video completed: {clip.name}");
@@ -507,7 +541,7 @@ public class GameManager : MonoBehaviour
         else
         {
             Debug.Log("Ronde selesai, menunggu untuk melanjutkan...");
-            ChangeState(GameState.WaitForContinue);
+            ResetRound();
         }
     }
 
@@ -518,6 +552,11 @@ public class GameManager : MonoBehaviour
     private void UpdateHealthUI()
     {
         DebugLog($"Updating health UI - P1: {p1Lives}, P2: {p2Lives}");
+
+        if (currentState == GameState.GameOver || currentState == GameState.Intro)
+        {
+            return;
+        }
 
         // Update Player 1 hearts
         if (p1HeartSprites != null)
