@@ -464,28 +464,28 @@ private void HandleShoot(int playerID)
 
 private IEnumerator HandleEarlyShotPenalty(int playerID)
 {
-    roundActive = false;
-    DebugLog($"Starting early shot penalty sequence for Player {playerID}");
-    
-    // 1. Putar video penalty dulu (jika ada)
+    DebugLog($"Player {playerID} early shot! Applying penalty...");
+
     if (earlyShotClip != null)
     {
-        DebugLog("Playing early shot penalty video");
-        yield return StartCoroutine(PlayVideoAndWait(earlyShotClip));
+        cutsceneManager.PlaySingleClip(earlyShotClip);
+        DebugLog($"Playing Early Shot Clip: {earlyShotClip.name}");
+        yield return new WaitForSeconds((float)earlyShotClip.length);
     }
     else
     {
-        // Jika tidak ada video penalty, tunggu sebentar untuk menunjukkan pesan
         yield return new WaitForSeconds(2f);
     }
     
+    
+    
     // 2. Cek apakah game sudah berakhir setelah penalty
-    if (CheckGameOver())
-    {
-        // Jika game over, fungsi CheckGameOver() sudah mengubah state ke GameOver
-        DebugLog("Game over after early shot penalty");
-        yield break;
-    }
+        if (CheckGameOver())
+        {
+            // Jika game over, fungsi CheckGameOver() sudah mengubah state ke GameOver
+            DebugLog("Game over after early shot penalty");
+            yield break;
+        }
     
     // 3. Jika game belum berakhir, putar Face Off video lagi
     DebugLog("Playing Face Off video after penalty - resetting round");
