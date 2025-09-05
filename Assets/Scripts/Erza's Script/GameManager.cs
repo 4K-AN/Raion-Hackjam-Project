@@ -54,8 +54,6 @@ public class GameManager : MonoBehaviour
     [Header("Visuals - Round Result Videos")]
     public VideoClip p1WinsRoundClip;      // Player 1 menang ronde
     public VideoClip p2WinsRoundClip;      // Player 2 menang ronde
-    public VideoClip p1GetsHitClip;        // Player 1 tertembak
-    public VideoClip p2GetsHitClip;        // Player 2 tertembak
     [Header("Visuals - Game End Videos")]
     public VideoClip p1WinsGameClip;       // Player 1 menang game
     public VideoClip p2WinsGameClip;       // Player 2 menang game
@@ -450,57 +448,53 @@ public class GameManager : MonoBehaviour
         currentGameFlowCoroutine = StartCoroutine(RoundOverSequence(winnerID, false));
     }
 
-    private IEnumerator RoundOverSequence(int winnerID, bool isClashWin)
+private IEnumerator RoundOverSequence(int winnerID, bool isClashWin)
+{
+    Debug.Log($"Ronde Selesai - Pemenang: Player {winnerID}, Menang Duel: {isClashWin}");
+    
+    roundActive = false;
+    
+    // Langsung sembunyikan UI sequence
+    if (sequenceUIPanel != null) sequenceUIPanel.SetActive(false);
+    
+    VideoClip winnerClip;
+
+    // Kurangi nyawa pemain yang kalah
+    if (winnerID == 1)
     {
-        DebugLog($"Round over - Winner: Player {winnerID}, Clash Win: {isClashWin}");
-        
-        roundActive = false;
-        
-        // Hide sequence UI immediately
-        if (sequenceUIPanel != null) sequenceUIPanel.SetActive(false);
-        
-        VideoClip winnerClip, loserClip;
-
-        // Kurangi nyawa yang kalah
-        if (winnerID == 1)
-        {
-            p2Lives--;
-            winnerClip = p1WinsRoundClip;
-            loserClip = p2GetsHitClip;
-        }
-        else // winnerID == 2
-        {
-            p1Lives--;
-            winnerClip = p2WinsRoundClip;
-            loserClip = p1GetsHitClip;
-        }
-        
-        DebugLog($"Lives after round - P1: {p1Lives}, P2: {p2Lives}");
-        UpdateHealthUI();
-
-        // 1. Putar video pemenang menembak
-        if (winnerClip != null)
-        {
-            yield return StartCoroutine(PlayVideoAndWait(winnerClip));
-        }
-
-        // 2. Putar video yang kalah tertembak
-        if (loserClip != null)
-        {
-            yield return StartCoroutine(PlayVideoAndWait(loserClip));
-        }
-        
-        // 3. Cek Game Over atau lanjut
-        if (CheckGameOver())
-        {
-            // Game over akan dihandle otomatis oleh CheckGameOver()
-        }
-        else
-        {
-            DebugLog("Round completed, waiting for continue");
-            ChangeState(GameState.WaitForContinue);
-        }
+        p2Lives--;
+        // Gunakan video kemenangan P1, atau video gagal sequence jika relevan
+        winnerClip = isClashWin ? p1WinsRoundClip : sequenceFailClip;
     }
+    else // winnerID == 2
+    {
+        p1Lives--;
+        winnerClip = isClashWin ? p2WinsRoundClip : sequenceFailClip;
+    }
+    
+    Debug.Log($"Nyawa setelah ronde - P1: {p1Lives}, P2: {p2Lives}");
+    UpdateHealthUI();
+
+    // 1. Putar HANYA video pemenang
+    if (winnerClip != null)
+    {
+        // Saya asumsikan Anda memiliki helper coroutine bernama PlayVideoAndWait
+        yield return StartCoroutine(PlayVideoAndWait(winnerClip));
+    }
+
+    // 2. Bagian untuk memutar video yang kalah (loserClip) sudah DIHAPUS.
+    
+    // 3. Langsung cek Game Over atau lanjut ke tahap berikutnya
+    if (CheckGameOver())
+    {
+        // State GameOver akan diatur oleh fungsi CheckGameOver()
+    }
+    else
+    {
+        Debug.Log("Ronde selesai, menunggu untuk melanjutkan...");
+        ChangeState(GameState.WaitForContinue);
+    }
+}
 
     private void UpdateHealthUI()
     {
