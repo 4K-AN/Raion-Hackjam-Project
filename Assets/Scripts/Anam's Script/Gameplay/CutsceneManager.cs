@@ -84,6 +84,27 @@ public class CutsceneManager : MonoBehaviour
         }
     }
 
+    public void StopCurrentCutscene()
+{
+    // Stop any ongoing coroutines
+    StopAllCoroutines();
+    
+    // Hide video player if active
+    if (videoPlayer != null && videoPlayer.isPlaying)
+    {
+        videoPlayer.Stop();
+        videoPlayer.gameObject.SetActive(false);
+    }
+    
+    // Hide image display if active  
+    if (imageDisplay != null)
+    {
+        imageDisplay.gameObject.SetActive(false);
+    }
+    
+    Debug.Log("[CutsceneManager] Current cutscene stopped");
+}
+
     // ---------------------
     // Public API
     // ---------------------
