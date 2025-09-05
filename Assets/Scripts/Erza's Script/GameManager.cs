@@ -45,7 +45,8 @@ public class GameManager : MonoBehaviour
 
     // ============== KOLEKSI VIDEO DAN GAMBAR ==============
     [Header("Visuals - Videos")]
-    public VideoClip faceOffClip;          // Video intro: face off
+    public VideoClip playerMeetClip;       // Video 1: Player bertemu
+    public VideoClip faceOffClip;          // Video 2: Face off
     [Header("Visuals - Sprites")]
     public Sprite readyPromptSprite;    // Gambar: Press Q and P to Ready
     public Sprite highNoonWaitSprite;   // Gambar: High Noon (menunggu)
@@ -114,6 +115,12 @@ public class GameManager : MonoBehaviour
         p1Lives = startingLives;
         p2Lives = startingLives;
         waitingForContinue = false;
+        
+        // TAMBAHAN DEBUG - CHECK VIDEO ASSIGNMENTS
+        DebugLog("=== CHECKING VIDEO ASSIGNMENTS IN START ===");
+        DebugLog($"playerMeetClip: {(playerMeetClip != null ? playerMeetClip.name : "NULL")}");
+        DebugLog($"faceOffClip: {(faceOffClip != null ? faceOffClip.name : "NULL")}");
+        DebugLog($"CutsceneManager: {(cutsceneManager != null ? "Found" : "NULL")}");
         
         // Initialize UI - TAMPILKAN HEALTH UI DARI AWAL
         UpdateHealthUI();
@@ -279,18 +286,24 @@ public class GameManager : MonoBehaviour
 
     #region Game Flow Coroutines
     private IEnumerator IntroSequence()
+{
+    DebugLog("Starting intro sequence");
+    
+    // Putar video player meet terlebih dahulu
+    if (playerMeetClip != null)
     {
-        DebugLog("Starting intro sequence - Face off only");
-        
-        // HANYA Face off clip
-        if (faceOffClip != null)
-        {
-            yield return StartCoroutine(PlayVideoAndWait(faceOffClip));
-        }
-
-        DebugLog("Intro sequence completed, going to ready wait");
-        ChangeState(GameState.WaitingForReady);
+        yield return StartCoroutine(PlayVideoAndWait(playerMeetClip));
     }
+    
+    // Putar video face off setelahnya
+    if (faceOffClip != null)
+    {
+        yield return StartCoroutine(PlayVideoAndWait(faceOffClip));
+    }
+
+    DebugLog("Intro sequence completed, going to ready wait");
+    ChangeState(GameState.WaitingForReady);
+}
 
     private IEnumerator HighNoonCountdown()
     {

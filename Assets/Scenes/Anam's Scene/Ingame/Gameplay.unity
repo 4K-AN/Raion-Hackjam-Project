@@ -2047,6 +2047,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1018109873}
   - component: {fileID: 1018109872}
+  - component: {fileID: 1018109874}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -2086,6 +2087,7 @@ MonoBehaviour:
   sequenceUIPanel: {fileID: 656638886}
   pauseMenu: {fileID: 1846529145}
   enableDebugLogs: 1
+  playerMeetClip: {fileID: 32900000, guid: 7b49f7f9a6cd70d40a16706f8b42a925, type: 3}
   faceOffClip: {fileID: 32900000, guid: 920a662c7688a6740838cb4e63ef80da, type: 3}
   readyPromptSprite: {fileID: 4100129014753480916, guid: b272ece31cd3a36459dc2053714f68a5, type: 3}
   highNoonWaitSprite: {fileID: -1918665799226547777, guid: 134e2a1b186a1e749a70c4ebd8674dac, type: 3}
@@ -2113,6 +2115,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1018109874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018109871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5a8e7bd6246c384f8be051fec209d6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkUIAssignments: 1
+  forceShowHearts: 1
+  testSequenceUI: 1
 --- !u!1 &1038272762
 GameObject:
   m_ObjectHideFlags: 0
