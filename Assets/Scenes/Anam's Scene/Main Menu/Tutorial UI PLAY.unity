@@ -362,6 +362,23 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!1 &969698484 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7585188272134704047, guid: cda1661b9d60a384ca14dd78e03d1e50, type: 3}
+  m_PrefabInstance: {fileID: 1565156353}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &969698485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 969698484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bff278f4cbc62c548bd8852b1c562819, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &983308122
 GameObject:
   m_ObjectHideFlags: 0
@@ -637,10 +654,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: BGManager
       objectReference: {fileID: 0}
+    - target: {fileID: 8327193430249725600, guid: cda1661b9d60a384ca14dd78e03d1e50, type: 3}
+      propertyPath: m_Resource
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8327193430249725600, guid: cda1661b9d60a384ca14dd78e03d1e50, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7585188272134704047, guid: cda1661b9d60a384ca14dd78e03d1e50, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 969698485}
   m_SourcePrefab: {fileID: 100100000, guid: cda1661b9d60a384ca14dd78e03d1e50, type: 3}
 --- !u!1 &1633285412
 GameObject:
